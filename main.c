@@ -6,13 +6,14 @@
 
 int main(void){  
     int i;  
-    limpa_tela();    
-    titulo();    /*Escreve Batalha Naval*/
-    
-    switch(tela_inicial()){
+
+
+    while(1){        
+        switch(tela_inicial()){
         case 1:
             break;
-        case 2:
+        case 2:            
+            instrucoes();
             break;
         case 3:
             break;
@@ -22,6 +23,9 @@ int main(void){
             limpa_tela();
             return 0;
             break;
+        }
     }
+
+    
     return 0;
 }
