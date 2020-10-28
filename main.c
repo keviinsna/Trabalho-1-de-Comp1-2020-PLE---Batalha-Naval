@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
 
 int main(void){  
-    int i;  
-
-
+    int i;    
+    
     while(1){        
         switch(tela_inicial()){
         case 1:
+            iniciar_jogo();
             break;
         case 2:            
             instrucoes();
