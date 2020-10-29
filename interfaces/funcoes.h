@@ -17,6 +17,7 @@
     void insere_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
     void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]);
     void preenche_tabuleiro();
+    
     int verifica_coordenadas(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
     void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
 

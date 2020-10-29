@@ -12,7 +12,7 @@ all: $(BINARIES)
 main: main.o funcoes.o 
 	$(CC) -o main main.o funcoes.o
 
-main.o: main.c 
+main.o: main.c interfaces/defs.h
 	$(CC) -c main.c $(CFLAGS) $(MATH_FLAGS)
 
 funcoes.o: funcoes.c interfaces/funcoes.h
