@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio_ext.h>
+#include <ctype.h>
 
 #include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
@@ -12,7 +13,7 @@ int tela_inicial(){
     
     limpa_tela();    
     titulo();    /*Escreve Batalha Naval*/
-
+    
     printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\tFeito por: Ellen, Igor e Kevin\n\n\n");
 
     printf("\t\t\t\t\t\t\t ----------------------------------------\n");
@@ -29,6 +30,7 @@ int tela_inicial(){
     printf("\n\n\t\t\t\t\t\t\t> Digite o número da opção: ");
     scanf("%d", &opcao);
     while(!(1 <= opcao && opcao <= 4)){
+        limpa_buffer();
         printf("\t\t\t\t\t\t\t> Opção inexistente. Por favor, tente novamente.\n");
         printf("\t\t\t\t\t\t\t> Digite o número da opção: ");
         scanf("%d", &opcao);
@@ -75,7 +77,7 @@ void instrucoes(){
      
     printf("\n\n\t\t\t\t\t\t\t\t> Digite [v] para voltar: ");
     fgets(opcao, 2, stdin);
-    while(opcao[0] != 'v'){
+    while(tolower(opcao[0]) != 'v'){
         limpa_buffer();
         printf("\t\t\t\t\t\t\t\t> Caracter incorreto. Por favor, tente novamente.\n");        
         printf("\t\t\t\t\t\t\t\t> Digite [v] para voltar: ");
@@ -85,21 +87,36 @@ void instrucoes(){
 }
 
 void iniciar_jogo(){
-    char a[10];
-    limpa_tela();
-    limpa_buffer();
+    char a[10], orientacao;
+    int i, linha, coluna;
 
-/*
-    titulo();
-    printf("\n\n\t\t\t\t\t\tANTES DE COMEÇARMOS, DIGITE SEU NOME: ");
-    fgets(jogador.nome, 40, stdin);
-    limpa_tela();
-*/
-    printf("\n\n\n");
     inicializa_tabuleiro(jogador.tabuleiro);
-    imprime_tabuleiro(jogador.tabuleiro);
-    
-    printf("\n\n\t\t> Digite qualquer coisa para sair: ");
+
+    for(i = 1; i <= 13; i ++){
+        limpa_tela();
+        limpa_buffer();
+        imprime_tabuleiro(jogador.tabuleiro);
+        /*Pensar num jeito melhor de incluir todos os casos.*/
+        if(i == 1){
+            printf("\n\n\t\tDigite as coordenadas do Porta-avião: \n");
+            
+            printf("\t\tLinha: ");
+            scanf("%d", &linha);
+            
+            printf("\t\tColuna: ");
+            scanf("%d", &coluna);
+
+            limpa_buffer();
+            printf("\t\tOrientação [h/v]: ");
+            orientacao = getchar();
+
+            /*Antes de preencher deve verificar se a coordenada está disponível*/
+            preenche_tabuleiro(linha, coluna, 4, jogador.tabuleiro, orientacao);
+        }            
+    }
+
+    /*Só para não sair direto*/
+    printf("\n\n\t\tDigite qualquer coisa pra sair: ");
     fgets(a, 10, stdin);
 }
 
@@ -110,9 +127,10 @@ void inicializa_tabuleiro(char tabuleiro[MAX][MAX]){
             tabuleiro[i][j] = '.';
     }    
 }
+
 void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
     int i, j;
-    printf("\t\t   POSICIONE SUAS PEÇAS:\n\t\t ---------------------------------------------------------\n");
+    printf("\n\n\n\t\t   POSICIONE SUAS PEÇAS:\n\t\t ---------------------------------------------------------\n");
     for(i = 0; i < MAX; i++){
         printf("\t\t");
         /* Tabuleiro 1 */        
@@ -151,8 +169,7 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                 default:
                     break;
                 }
-            }
-                
+            }                
         }
         printf("\n");        
     }
@@ -197,6 +214,17 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
     }
     printf("\t\t ---------------------------------------------------------\t\t");
     printf(" ---------------------------------------------------------\n");
+}
+
+void preenche_tabuleiro(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
+    int i; 
+    for(i = 0; i < tam_barco; i++){
+        if(orientacao == 'h')
+            tabuleiro[linha][coluna+i] = '#';
+        else
+            tabuleiro[linha+i][coluna] = '#';
+    }
+        
 }
 
 void limpa_tela(){
