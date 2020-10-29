@@ -14,6 +14,8 @@
     void imprime_tabuleiro(char tabuleiro[MAX][MAX]);
     void imprime_ambos_tabuleiros(char tabuleiro1[MAX][MAX], char tabuleiro2[MAX][MAX]);
 
-    void preenche_tabuleiro(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
+    void insere_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
+    void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]);
+    void preenche_tabuleiro();
 
 #endif

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio_ext.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
@@ -87,18 +88,63 @@ void instrucoes(){
 }
 
 void iniciar_jogo(){
-    char a[10], orientacao;
-    int i, linha, coluna;
+    char a[10];
+    
 
     inicializa_tabuleiro(jogador.tabuleiro);
+    limpa_tela();
+    limpa_buffer();
+    imprime_tabuleiro(jogador.tabuleiro);
 
-    for(i = 1; i <= 13; i ++){
-        limpa_tela();
-        limpa_buffer();
-        imprime_tabuleiro(jogador.tabuleiro);
-        /*Pensar num jeito melhor de incluir todos os casos.*/
-        if(i == 1){
-            printf("\n\n\t\tDigite as coordenadas do Porta-avião: \n");
+    preenche_tabuleiro(); 
+    
+
+
+    /*Só para não sair direto*/
+    printf("\n\n\t\tDigite qualquer coisa pra sair: ");
+    limpa_buffer();
+    fgets(a, 10, stdin);
+}
+void preenche_tabuleiro(){
+    int linha, coluna,i,j,k,tamanho;
+    char orientacao, barco[20];
+
+    for(i=1;i<=5;i++){
+        switch (i){
+            case(1):
+                j=1;
+                strcpy(barco,"Porta-Avião");
+                tamanho=TAM_PORTA_AVIAO;
+                break; 
+            
+            case(2):
+                j=2;
+                strcpy(barco,"Cruzado");
+                tamanho=TAM_CRUZADO;
+                break;
+            
+            case(3):
+                j=3;
+                strcpy(barco,"Contratorpedo");
+                tamanho=TAM_CONTRATORPEDO;
+                break;
+            
+            case(4):
+                j=4;
+                strcpy(barco,"Submarino");
+                tamanho=TAM_SUBMARINO;
+                break;
+            
+            case(5):
+                j=3;
+                strcpy(barco,"Bomba");
+                tamanho=TAM_BOMBA;
+                break;
+            
+        }
+        for(k=1;k<=j;k++){
+
+            printf("\n\n\t\tDigite as coordenadas do %d %s: \n",k,barco );
             
             printf("\t\tLinha: ");
             scanf("%d", &linha);
@@ -106,19 +152,26 @@ void iniciar_jogo(){
             printf("\t\tColuna: ");
             scanf("%d", &coluna);
 
+            if(i<4){
+                limpa_buffer();
+                printf("\t\tOrientação [h/v]: ");
+                orientacao = getchar();
+
+            }
+
+            /*verifica*/
+            if(i!=5)
+                insere_barco(linha,coluna,tamanho,jogador.tabuleiro,orientacao);
+            else 
+                insere_bomba(linha,coluna,jogador.tabuleiro);
+
+            limpa_tela();
             limpa_buffer();
-            printf("\t\tOrientação [h/v]: ");
-            orientacao = getchar();
-
-            /*Antes de preencher deve verificar se a coordenada está disponível*/
-            preenche_tabuleiro(linha, coluna, 4, jogador.tabuleiro, orientacao);
-        }            
+            imprime_tabuleiro(jogador.tabuleiro);
+        }
     }
-
-    /*Só para não sair direto*/
-    printf("\n\n\t\tDigite qualquer coisa pra sair: ");
-    fgets(a, 10, stdin);
 }
+
 
 void inicializa_tabuleiro(char tabuleiro[MAX][MAX]){
     int i, j;
@@ -152,19 +205,19 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                     printf("LEGENDA:");
                     break;
                 case 3:
-                    printf("1 PORTA-AVIÕES (4 CASAS): #");
+                    printf("1 PORTA-AVIÕES (4 CASAS): $");
                     break;
                 case 5:
-                    printf("2 CRUZADOS (3 CASAS): @");
+                    printf("2 CRUZADOS (3 CASAS): $");
                     break;
                 case 7:
                     printf("3 CONTRATORPEDOS (2 CASAS): $");
                     break;
                 case 9:
-                    printf("4 SUBMARINOS (1 CASA): &");
+                    printf("4 SUBMARINOS (1 CASA): $");
                     break;
                 case 11: 
-                    printf("3 BOMBAS (1 CASA): ó");
+                    printf("3 BOMBAS (1 CASA): @");
                     break;
                 default:
                     break;
@@ -192,8 +245,7 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
                 else 
                     printf("%2d| ", i);
             }else
-                printf("%c   ", tabuleiro[i][j]);
-            
+                printf("%c   ", tabuleiro[i][j]);    
         }
         
         printf("\t\t");
@@ -216,15 +268,20 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
     printf(" ---------------------------------------------------------\n");
 }
 
-void preenche_tabuleiro(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
+void insere_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
     int i; 
     for(i = 0; i < tam_barco; i++){
         if(orientacao == 'h')
-            tabuleiro[linha][coluna+i] = '#';
+            tabuleiro[linha][coluna+i] = '$';
         else
-            tabuleiro[linha+i][coluna] = '#';
+            tabuleiro[linha+i][coluna] = '$';
     }
         
+}
+void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]){
+    
+    tabuleiro[linha][coluna] = '@';
+    
 }
 
 void limpa_tela(){

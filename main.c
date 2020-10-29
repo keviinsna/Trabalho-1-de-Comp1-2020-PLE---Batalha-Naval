@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
@@ -20,7 +21,7 @@ int main(void){
         case 3:
             break;
         case 4:
-            printf("\n\n\t\t\t\t\t\t\t\t     FIM DE iOGO\n");
+            printf("\n\n\t\t\t\t\t\t\t\t     FIM DE JOGO\n");
             for(i = 0; i < 555555555; i++) ; /* Loop para o delay */
             limpa_tela();
             return 0;
