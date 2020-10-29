@@ -106,8 +106,8 @@ void iniciar_jogo(){
     fgets(a, 10, stdin);
 }
 void preenche_tabuleiro(){
-    int linha, coluna,i,j,k,tamanho;
-    char orientacao, barco[20];
+    int linha,i,j,k,tamanho, coluna;
+    char orientacao, barco[20], c;
 
     for(i=1;i<=5;i++){
         switch (i){
@@ -148,9 +148,11 @@ void preenche_tabuleiro(){
             
             printf("\t\tLinha: ");
             scanf("%d", &linha);
-            
+            limpa_buffer();
             printf("\t\tColuna: ");
-            scanf("%d", &coluna);
+            scanf("%c", &c);
+            coluna=c -64;
+            printf("\n\n\n\t\tcoluna=%d",coluna);
 
             if(i<4){
                 limpa_buffer();
@@ -170,9 +172,10 @@ void preenche_tabuleiro(){
             
                 printf("\t\tLinha: ");
                 scanf("%d", &linha);
-            
+                limpa_buffer();
                 printf("\t\tColuna: ");
-                scanf("%d", &coluna);
+                scanf("%c", &c);
+                coluna=c-64;
 
                 if(i<4){
                     limpa_buffer();
