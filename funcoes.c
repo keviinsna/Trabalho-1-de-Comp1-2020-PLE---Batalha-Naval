@@ -160,10 +160,37 @@ void preenche_tabuleiro(){
             }
 
             /*verifica*/
-            if(i!=5)
+            while(!verifica_coordenadas(linha,coluna,tamanho,jogador.tabuleiro,orientacao)){
+                limpa_tela();
+                limpa_buffer();
+                imprime_tabuleiro(jogador.tabuleiro);
+                printf("\n\n\t\tCOORDENADA INVÁLIDA!!\n");
+
+                printf("\n\n\t\tDigite as coordenadas do %s %d: \n",barco,k );
+            
+                printf("\t\tLinha: ");
+                scanf("%d", &linha);
+            
+                printf("\t\tColuna: ");
+                scanf("%d", &coluna);
+
+                if(i<4){
+                    limpa_buffer();
+                    printf("\t\tOrientação [h/v]: ");
+                    orientacao = getchar();
+                }
+            }
+
+            if(i!=5){
+
                 insere_barco(linha,coluna,tamanho,jogador.tabuleiro,orientacao);
-            else 
+                cria_borda_barco(linha,coluna, tamanho, jogador.tabuleiro,orientacao); /*não pode barcos adjacentes*/
+            }
+            else {
+
                 insere_bomba(linha,coluna,jogador.tabuleiro);
+                cria_borda_barco(linha,coluna,tamanho,jogador.tabuleiro,'h'); /*orientação nao importa pq o tamanho é 1*/
+            }
 
             limpa_tela();
             limpa_buffer();
@@ -282,6 +309,87 @@ void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]){
     
     tabuleiro[linha][coluna] = '@';
     
+}
+int verifica_coordenadas(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
+    int i;
+    int ori; /* Auxilar para orientação */
+    int resp = 1;
+
+    if(orientacao != 'h' && orientacao != 'v')
+        resp = 0;
+    else{
+        ori = (orientacao == 'h')? coluna : linha;
+        
+        if(linha < 1 || coluna < 1 || linha > MAX - 1 || coluna > MAX - 1)
+            resp = 0;
+        else if(ori + tam_barco - 1 > MAX - 1)
+            resp = 0;
+        else{
+            if(orientacao == 'h'){
+                for(i = 0; i < tam_barco; i++){
+                    if(tabuleiro[linha][coluna + i] == '$' || tabuleiro[linha][coluna + i] == '*'){
+                        resp = 0;
+                        break;
+                    }
+                }
+            }else{
+                for(i = 0; i < tam_barco; i++){
+                    if(tabuleiro[linha + i][coluna] == '$' || tabuleiro[linha + i][coluna] == '*'){
+                        resp = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }        
+    return resp;
+}
+void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
+    int i;
+    
+    if(orientacao =='h'){    
+        if(coluna - 1 > 0){
+            tabuleiro[linha][coluna - 1] = '*';
+            if(linha + 1 < MAX)
+                tabuleiro[linha + 1][coluna - 1] = '*';
+            if(linha - 1 > 0)
+                tabuleiro[linha - 1][coluna - 1] = '*';
+        }
+        if(coluna + tam_barco < MAX){
+            tabuleiro[linha][coluna + tam_barco] = '*';
+            if(linha + 1 < MAX)
+                tabuleiro[linha + 1][coluna + tam_barco] = '*';
+            if(linha - 1 > 0)
+                tabuleiro[linha - 1][coluna + tam_barco] = '*';
+        }
+        for(i = 0; i < tam_barco; i++){
+            if((linha - 1 > 0) && (coluna + i < MAX))
+                tabuleiro[linha-1][coluna + i] = '*';
+            if((linha + 1 < MAX) && (coluna + i < MAX))
+                tabuleiro[linha+1][coluna+i] = '*';
+        }
+    }else{
+        if(linha - 1 > 0){
+            tabuleiro[linha - 1][coluna] = '*';
+            if(coluna - 1 > 0)
+                tabuleiro[linha - 1][coluna - 1] = '*';
+            if(coluna + 1 < MAX)
+                tabuleiro[linha - 1][coluna + 1] = '*';
+        }
+        if(linha + tam_barco < MAX){
+            tabuleiro[linha+tam_barco][coluna] = '*';
+            if(coluna - 1 > 0)
+                tabuleiro[linha + tam_barco][coluna - 1] = '*';
+            if(coluna + 1 < MAX)
+                tabuleiro[linha + tam_barco][coluna + 1] = '*';
+        }
+        for(i = 0; i < tam_barco; i++){
+            if((coluna - 1 > 0) && (linha + i < MAX))
+                tabuleiro[linha + i][coluna - 1] = '*';
+            if((coluna + 1 < MAX) && (linha + i < MAX))
+                tabuleiro[linha + i][coluna + 1] = '*';
+        }
+    }
 }
 
 void limpa_tela(){
