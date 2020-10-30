@@ -54,7 +54,7 @@ void titulo(){
 }
 
 void instrucoes(){
-    char opcao[2];
+    char opcao;
 
     limpa_tela();
     limpa_buffer();
@@ -80,14 +80,10 @@ void instrucoes(){
     printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
     printf("\t\t\t\t   --------------------------------------------------------------------------------------------------\n\n");  
      
-    printf("\n\n\t\t\t\t\t\t\t\t> Digite [v] para voltar: ");
-    fgets(opcao, 2, stdin);
-    while(tolower(opcao[0]) != 'v'){
-        limpa_buffer();
-        printf("\t\t\t\t\t\t\t\t> Caracter incorreto. Por favor, tente novamente.\n");        
-        printf("\t\t\t\t\t\t\t\t> Digite [v] para voltar: ");
-        fgets(opcao, 2, stdin);
-    }
+    printf("\n\n\t\t\t\t\t\t\t\t> Digite qualquer coisa para voltar: ");
+    
+    scanf("%c",&opcao);
+  
 }
 
 void iniciar_jogo(){
