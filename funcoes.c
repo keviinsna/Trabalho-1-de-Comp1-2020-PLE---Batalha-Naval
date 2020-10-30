@@ -1,6 +1,9 @@
+/*#include <stdio_ext.h>*/
+#ifndef __WIN32__
+    #include <stdio_ext.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdio_ext.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -29,6 +32,7 @@ int tela_inicial(){
     printf("\t\t\t\t\t\t\t ---------------------------------------\n\n");    
 
     printf("\n\n\t\t\t\t\t\t\t> Digite o número da opção: ");
+    limpa_buffer();
     scanf("%d", &opcao);
     while(!(1 <= opcao && opcao <= 4)){
         limpa_buffer();
@@ -413,5 +417,10 @@ void limpa_buffer(){
         fflush(stdin);
     #else
         __fpurge(stdin);
+    #endif
+}
+void muda_config_windows(){
+    #ifdef __WIN32__
+        system("chcp 65001");
     #endif
 }

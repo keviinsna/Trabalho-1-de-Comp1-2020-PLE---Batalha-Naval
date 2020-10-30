@@ -10,6 +10,7 @@
 int main(void){  
     int i;    
     
+    muda_config_windows();
     while(1){        
         switch(tela_inicial()){
         case 1:

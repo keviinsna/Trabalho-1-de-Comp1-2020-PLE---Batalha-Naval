@@ -1,6 +1,7 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 
+    void muda_config_windows();
     void limpa_tela();
     void limpa_buffer();
 
