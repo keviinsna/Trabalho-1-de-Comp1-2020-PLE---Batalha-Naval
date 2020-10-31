@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <string.h>
 
+
 #include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
 
@@ -88,13 +89,12 @@ void instrucoes(){
 
 void iniciar_jogo(){
 
-    char a[10];
+    char a[10], gera_tab_auto;
     
-    printf("\n\n\t\tInsira seu nome: ");
+    printf("\n\n\t\t\t\t\tInsira seu nome: ");
+    limpa_buffer();
     fgets(jogador.nome,40,stdin);
-
-    char a[10], gera_tab_auto;  
-
+    limpa_tela();
 
     inicializa_tabuleiro(jogador.tabuleiro);
     inicializa_tabuleiro(cpu.tabuleiro);
@@ -107,7 +107,7 @@ void iniciar_jogo(){
     scanf("%c", &gera_tab_auto);
     
 
-    /* Verificar se entrou de sacanagem */
+    /* Verificar */
     
     if(gera_tab_auto == 's')
         preenche_tabuleiro_auto(jogador.tabuleiro);        
@@ -122,6 +122,8 @@ void iniciar_jogo(){
 
 
     preenche_tabuleiro_auto(cpu.tabuleiro);
+
+    /*jogando*/
     
     /*Só para não sair direto*/
     printf("\n\n\t\tDigite qualquer coisa pra sair: ");
@@ -431,6 +433,7 @@ void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][
 void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){    
     int i, j, qtd_barco, tamanho, coluna, linha, ori;
     char orientacao;
+    
 
     for(i = 1; i <= 5; i++){
         switch (i){
