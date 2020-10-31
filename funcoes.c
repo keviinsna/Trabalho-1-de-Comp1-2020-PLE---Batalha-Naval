@@ -89,6 +89,8 @@ void instrucoes(){
 void iniciar_jogo(){
     char a[10];
     
+    printf("\n\n\t\tInsira seu nome: ");
+    fgets(jogador.nome,40,stdin);
 
     inicializa_tabuleiro(jogador.tabuleiro);
     limpa_tela();
@@ -97,7 +99,8 @@ void iniciar_jogo(){
 
     preenche_tabuleiro(); 
     
-
+    /*preenche tabuleiro cpu*/
+    /*jogando*/
 
     /*Só para não sair direto*/
     printf("\n\n\t\tDigite qualquer coisa pra sair: ");
@@ -294,7 +297,7 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
                 else 
                     printf("%2d| ", i);
             }else
-                printf("%c   ", tabuleiro[i][j]);            
+                printf("%c   ", tabuleiro2[i][j]);            
         }
             
         printf("\n");
