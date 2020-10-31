@@ -10,7 +10,7 @@
 #include "interfaces/defs.h"
 #include "interfaces/funcoes.h"
 
-JOGADOR jogador;
+JOGADOR jogador, cpu;
 
 int tela_inicial(){
     int opcao;
@@ -87,18 +87,33 @@ void instrucoes(){
 }
 
 void iniciar_jogo(){
-    char a[10];
-    
+    char a[10], gera_tab_auto;  
 
     inicializa_tabuleiro(jogador.tabuleiro);
+    inicializa_tabuleiro(cpu.tabuleiro);
+
     limpa_tela();
     limpa_buffer();
+    
+    imprime_tabuleiro(jogador.tabuleiro);
+    printf("\t\t> Deseja gerar tabuleiro automaticamente? [s,n]: ");
+    scanf("%c", &gera_tab_auto);
+    
+    /* Verificar se entrou de sacanagem */
+    
+    if(gera_tab_auto == 's')
+        preenche_tabuleiro_auto(jogador.tabuleiro);        
+    else{
+        limpa_tela();
+        imprime_tabuleiro(jogador.tabuleiro);
+        preenche_tabuleiro();
+    }
+
+    limpa_tela();
     imprime_tabuleiro(jogador.tabuleiro);
 
-    preenche_tabuleiro(); 
+    preenche_tabuleiro_auto(cpu.tabuleiro);
     
-
-
     /*Só para não sair direto*/
     printf("\n\n\t\tDigite qualquer coisa pra sair: ");
     limpa_buffer();
@@ -201,7 +216,6 @@ void preenche_tabuleiro(){
     }
 }
 
-
 void inicializa_tabuleiro(char tabuleiro[MAX][MAX]){
     int i, j;
     for(i = 0; i < MAX; i++){
@@ -216,13 +230,15 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
     for(i = 0; i < MAX; i++){
         printf("\t\t");
         /* Tabuleiro 1 */        
-        for(j = 0; j < MAX; j++){
+        for(j = 0; j < MAX; j++){            
             if(!i || !j){
                 if(!i && !j)
                     printf("  | ");
-                else if(!i)
+                else if(!i){
                     printf("%c   ", 'A'+j-1); /*Letras (colunas)*/ 
-                else 
+                    if(j == MAX - 1)
+                        printf("\n\t\t ---------------------------------------------------------");                    
+                }else 
                     printf("%2d| ", i);     /*Números (linhas)*/
             }else{
                 if(tabuleiro[i][j] == '.')
@@ -275,9 +291,11 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
             if(!i || !j){
                 if(!i && !j)
                     printf("  | ");
-                else if(!i)
-                    printf("%c   ", 'A'+j-1);
-                else 
+                else if(!i){
+                    printf("%c   ", 'A'+j-1); /*Letras (colunas)*/ 
+                    if(j == MAX - 1)
+                        printf("\n\t\t ---------------------------------------------------------");                      
+                }else 
                     printf("%2d| ", i);
             }else
                 printf("%c   ", tabuleiro[i][j]);    
@@ -289,9 +307,11 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
             if(!i || !j){
                 if(!i && !j)
                     printf("  | ");
-                else if(!i)
-                    printf("%c   ", 'A'+j-1);
-                else 
+                else if(!i){
+                    printf("%c   ", 'A'+j-1); /*Letras (colunas)*/ 
+                    if(j == MAX - 1)
+                        printf("\n\t\t ---------------------------------------------------------");                      
+                }else 
                     printf("%2d| ", i);
             }else
                 printf("%c   ", tabuleiro[i][j]);            
@@ -310,8 +330,7 @@ void insere_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX]
             tabuleiro[linha][coluna+i] = '1';
         else
             tabuleiro[linha+i][coluna] = '1';
-    }
-        
+    }        
 }
 void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]){
     
@@ -400,6 +419,74 @@ void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][
     }
 }
 
+void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){    
+    int i, j, qtd_barco, tamanho, coluna, linha, ori;
+    char orientacao;
+
+    for(i = 1; i <= 5; i++){
+        switch (i){
+            case 1:
+                qtd_barco = 1;
+                tamanho = TAM_PORTA_AVIAO;
+                break; 
+            
+            case 2:
+                qtd_barco = 2;
+                tamanho = TAM_CRUZADO;
+                break;
+            
+            case 3:
+                qtd_barco = 3;
+                tamanho = TAM_CONTRATORPEDO;
+                break;
+            
+            case 4:
+                qtd_barco = 4;
+                tamanho = TAM_SUBMARINO;
+                break;
+            
+            default:
+                qtd_barco = 3;
+                tamanho = TAM_BOMBA;
+                break;            
+        }
+        
+        for(j = 1; j <= qtd_barco; j++){
+            /* Gerar linha e coluna */
+            linha =  1 + rand()%14; /*[1,14]*/ 
+            coluna = 1 + rand()%14; /*[1,14] => [A,N]*/
+            
+            /* Gerar orientação */ 
+            if(i < 4){
+                ori = rand()%2; /*[0,1]*/ 
+                orientacao = (!ori)? 'h' : 'v'; /* 0 = h; 1 = v */ 
+            }
+            /* Verifica */
+            
+            while(!verifica_coordenadas(linha, coluna, tamanho, tabuleiro, orientacao)){
+                /* Gerar linha e coluna */
+                linha =  1 + rand()%14; /*[1,14]*/ 
+                coluna = 1 + rand()%14; /*[1,14] => [A,N]*/
+            
+                /* Gerar orientação */ 
+                if(i < 4){
+                    ori = rand()%2; /*[0,1]*/ 
+                    orientacao = (!ori)? 'h' : 'v'; /* 0 = h; 1 = v */ 
+                }
+            } 
+
+            if(i != 5){
+                insere_barco(linha, coluna, tamanho, tabuleiro, orientacao);
+                cria_borda_barco(linha, coluna, tamanho, tabuleiro, orientacao); /*não pode barcos adjacentes*/
+            }
+            else{
+                insere_bomba(linha, coluna, tabuleiro);
+                cria_borda_barco(linha, coluna, tamanho, tabuleiro, 'h'); /*orientação nao importa pq o tamanho é 1*/
+            }            
+        }
+    }
+}
+
 void limpa_tela(){
     #ifdef __WIN32__
         system("cls");
@@ -415,6 +502,7 @@ void limpa_buffer(){
         __fpurge(stdin);
     #endif
 }
+
 void muda_config_windows(){
     #ifdef __WIN32__
         system("chcp 65001");
