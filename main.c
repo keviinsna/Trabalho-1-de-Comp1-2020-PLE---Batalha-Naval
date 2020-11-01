@@ -13,6 +13,7 @@ int main(void){
     while(1){        
         switch(tela_inicial()){
         case 1:
+            posicionar_embarcacao();
             iniciar_jogo();
             break;
         case 2:            
