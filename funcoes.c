@@ -496,7 +496,7 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
                 tamanho = TAM_BOMBA;
                 break;            
         }
-        srand(0);
+        srand(time(NULL));
         for(j = 1; j <= qtd_barco; j++){
             
             /* Gerar linha e coluna */
