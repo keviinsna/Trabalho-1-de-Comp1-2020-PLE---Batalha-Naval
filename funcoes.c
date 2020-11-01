@@ -65,7 +65,7 @@ void instrucoes(){
     printf("\t\t\t\t  |\t\t\t\t         INSTRUÇÕES SOBRE O JOGO\t\t\t\t     |\n");
     printf("\t\t\t\t  |--------------------------------------------------------------------------------------------------|\n");
     printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
-    printf("\t\t\t\t  |     Batalha Naval consiste em um jogo estratégico de tabuleiro 14x14 formado por 2 jogadores,    |\n");
+    printf("\t\t\t\t  |     Batalha Naval consiste em um jogo estratégico de tabuleiro 10x10 formado por 2 jogadores,    |\n");
     printf("\t\t\t\t  | cujo principal objetivo é acabar com todas a embarcações do adversário.\t\t\t     |\n");
     printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
     printf("\t\t\t\t  |     Antes de iniciar a partida, os jogadores devem posicionar, vertical ou horizontalmente, suas |\n");
@@ -500,8 +500,8 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
         for(j = 1; j <= qtd_barco; j++){
             
             /* Gerar linha e coluna */
-            linha =  1 + rand()%14; /*[1,14]*/ 
-            coluna = 1 + rand()%14; /*[1,14] => [A,N]*/
+            linha =  1 + rand()%10; /*[1,10]*/ 
+            coluna = 1 + rand()%10; /*[1,10] => [A,J]*/
             
             /* Gerar orientação */ 
             if(i < 4){
@@ -512,8 +512,8 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
             /* Verifica */            
             while(!verifica_coordenadas(linha, coluna, tamanho, tabuleiro, orientacao)){
                 /* Gerar linha e coluna */
-                linha =  1 + rand()%14; /*[1,14]*/ 
-                coluna = 1 + rand()%14; /*[1,14] => [A,N]*/
+                linha =  1 + rand()%10; /*[1,10]*/ 
+                coluna = 1 + rand()%10; /*[1,10] => [A,J]*/
             
                 /* Gerar orientação */ 
                 if(i < 4){
@@ -606,14 +606,14 @@ void iniciar_jogo(){
         if(fim_jogo)
             break;
      
-        srand(0);
+        srand(time(NULL));
         do{  /* CPU */         
             
             /*limpa_tela();*/
             printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
             
-            linha = 1 + rand()%14;
-            coluna = 1 + rand()%14;
+            linha = 1 + rand()%10;
+            coluna = 1 + rand()%10;
 
             resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
 
