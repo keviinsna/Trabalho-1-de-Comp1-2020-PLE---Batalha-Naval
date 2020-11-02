@@ -467,6 +467,7 @@ void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][
 
 void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){    
     int i, j, qtd_barco, tamanho, coluna, linha, ori;
+    static int k;
     char orientacao;
     
     for(i = 1; i <= 5; i++){
@@ -496,7 +497,8 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
                 tamanho = TAM_BOMBA;
                 break;            
         }
-        srand(time(NULL));
+        srand(k+time(NULL));
+        k++;
         for(j = 1; j <= qtd_barco; j++){
             
             /* Gerar linha e coluna */
