@@ -269,7 +269,7 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                 else if(tabuleiro[i][j] == '*')
                     printf(ANSI_COLOR_GREY "%c   " ANSI_COLOR_RESET, tabuleiro[i][j]);
                 else
-                    printf("%c   ", tabuleiro[i][j]);
+                    printf(ANSI_COLOR_GREEN"%c   "ANSI_COLOR_RESET, tabuleiro[i][j]);
             }   
 
             if(j == MAX -1){
@@ -576,10 +576,31 @@ void iniciar_jogo(){
                     
                     if(resp_tiro == 0){
                         cpu.qtd_barcos--;
+
+                        if(cpu.qtd_barcos == 0){
+                            limpa_tela();
+                            imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
+                            printf(ANSI_COLOR_GREEN"\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO!"ANSI_COLOR_RESET);
+                            printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
+                            fim_jogo = 1;
+                            break;
+                        }
+
                         strcpy(feedback, "\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO! JOGUE NOVMENTE.");
+
                     }else if(resp_tiro == 1){
                         cpu.qtd_bombas--; 
                         strcpy(feedback, "\t\tBOMBA ATINGIDA!");
+
+                        if(cpu.qtd_bombas == 0){
+                            limpa_tela();
+                            imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
+                            printf("\n\n\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO ADVERSÁRIO!");
+                            printf("\n\n\t\tVOCÊ PERDEU, %s.",jogador.nome);
+                            fim_jogo = 1;
+                            break;
+                        }
+
                     }else
                         strcpy(feedback, "\t\tÁGUA ATINGIDA!");               
                 }
@@ -593,7 +614,7 @@ void iniciar_jogo(){
                 break;
             }
            
-            if(cpu.qtd_bombas == 0){
+            /*if(cpu.qtd_bombas == 0){
                 printf("\n\n\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO ADVERSÁRIO!");
                 printf("\n\n\t\tVOCÊ PERDEU, %s.",jogador.nome);
                 fim_jogo = 1;
@@ -602,7 +623,7 @@ void iniciar_jogo(){
                 printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
                 fim_jogo = 1;
                 break;
-            }
+            }*/
         }while(1);
 
         if(fim_jogo)
@@ -619,7 +640,7 @@ void iniciar_jogo(){
 
             resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
 
-            /*sleep(2);*/
+            Sleep(1000);
             if(resp_verificacao == 2){
                 resp_tiro = atira(linha, coluna, jogador.tabuleiro);
                 
@@ -640,11 +661,12 @@ void iniciar_jogo(){
             }
             if(jogador.qtd_bombas == 0){
                 printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
+                Sleep(1000);
                 fim_jogo = 1;
                 break;
             }else if(jogador.qtd_barcos == 0){
-                printf("\n\n\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO ADVERSÁRIO!");
                 printf("\n\n\t\tVOCÊ PERDEU, %s.",jogador.nome);
+                Sleep(1000);
                 fim_jogo = 1;
                 break;
             }        
