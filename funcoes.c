@@ -614,16 +614,6 @@ void iniciar_jogo(){
                 break;
             }
            
-            /*if(cpu.qtd_bombas == 0){
-                printf("\n\n\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO ADVERSÁRIO!");
-                printf("\n\n\t\tVOCÊ PERDEU, %s.",jogador.nome);
-                fim_jogo = 1;
-                break;
-            }else if(cpu.qtd_barcos == 0){
-                printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
-                fim_jogo = 1;
-                break;
-            }*/
         }while(1);
 
         if(fim_jogo)
