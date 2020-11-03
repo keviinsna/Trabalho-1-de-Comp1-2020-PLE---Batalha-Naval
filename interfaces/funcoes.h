@@ -20,6 +20,7 @@
     void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]);
     
     int  verifica_coordenadas(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
+    int verifica_coordenadas_bomba(int linha, int coluna, char tabuleiro[MAX][MAX]);
     void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
 
     void iniciar_jogo();    
