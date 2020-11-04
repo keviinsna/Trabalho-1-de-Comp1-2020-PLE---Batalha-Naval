@@ -4,6 +4,7 @@
     void limpa_tela();
     void limpa_buffer();
     void muda_config_windows();
+    void delay();
 
     int  tela_inicial();
     void titulo();
