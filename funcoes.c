@@ -586,7 +586,7 @@ void iniciar_jogo(){
 	int linha, coluna;
     int resp_verificacao, resp_tiro; 
     int tiro_anterior=0, linha_tiro_anterior, coluna_tiro_anterior; 
-    int norte_sul, leste_oeste, verificou;
+    int norte_sul, leste_oeste, verificou=0, horizontal;
 	char c, feedback[60]; 
     int fim_jogo = 0;
 
@@ -672,35 +672,108 @@ void iniciar_jogo(){
         srand(time(NULL));
         do{  /* CPU */
             if(tiro_anterior >= 1){       
-                printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
-                
-                    norte_sul = rand()%1;
-                    leste_oeste = rand()%1;
+                verificou=0;
+                if(tiro_anterior == 1){
+                    norte_sul = rand()%2;
+                    leste_oeste = rand()%2;
                     do{
                         if((norte_sul == 1) && ( leste_oeste == 1 ) ){
                             linha = linha_tiro_anterior + 1;
+                            coluna = coluna_tiro_anterior;
                             leste_oeste = 0;
                             verificou++;
-                        }else if( (norte_sul = 1) && ( leste_oeste == 0 ) ){
+                            horizontal = 0;
+ 
+                        }else if( (norte_sul == 1) && ( leste_oeste == 0 ) ){
                             linha = linha_tiro_anterior - 1;
+                            coluna = coluna_tiro_anterior;
                             norte_sul = 0;
                             verificou++;
-                        }else if( (norte_sul = 0) && ( leste_oeste == 0 ) ){
+                            horizontal = 0;
+
+                        }else if( (norte_sul == 0) && ( leste_oeste == 0 ) ){
+                            linha = linha_tiro_anterior;
                             coluna = coluna_tiro_anterior - 1;
                             leste_oeste = 1;
                             verificou++;
-                        }else if( (norte_sul = 0) && ( leste_oeste == 1 ) ){
+                            horizontal = 1;
+ 
+                        }else if( (norte_sul == 0) && ( leste_oeste == 1 ) ){
+                            linha = linha_tiro_anterior;
                             coluna = coluna_tiro_anterior + 1;
                             norte_sul = 1;
                             verificou++;
+                            horizontal = 1;
+
                         }
                     
                     resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
-                    }while((resp_verificacao != 2) && (verificou < 4));
-                    if(resp_verificacao != 2){
-                        tiro_anterior=0;
+                    }while((resp_verificacao != 2) && (verificou <= 4));
+
+                    if((resp_verificacao != 2) && (verificou == 4)){
+                        tiro_anterior = 0;
+                    }else{
+                        printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
                     }
-            }else{
+                }else{
+                    if(horizontal==0){
+                        norte_sul = rand()%2;
+                        do{
+                        if((norte_sul == 1)){
+                            linha = linha_tiro_anterior + 1;
+                            coluna = coluna_tiro_anterior;
+                            verificou++;
+                            norte_sul = 0;
+                            horizontal = 0;
+ 
+                        }else if( (norte_sul == 0) ){
+                            linha = linha_tiro_anterior - 1;
+                            coluna = coluna_tiro_anterior;
+                            verificou++;
+                            norte_sul = 1;
+                            horizontal = 0;
+
+                        }
+                    
+                        resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
+                        }while((resp_verificacao != 2) && (verificou < 2));
+
+                        if((resp_verificacao != 2) && (verificou == 2)){
+                            tiro_anterior = 0;
+                        }else{
+                            printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
+                        }
+
+                    }else{
+                        leste_oeste = rand()%2;
+                        do{
+                        if((leste_oeste == 1)){
+                            linha = linha_tiro_anterior;
+                            coluna = coluna_tiro_anterior + 1;
+                            verificou++;
+                            leste_oeste = 0;
+                            horizontal = 1;
+ 
+                        }else if( (leste_oeste == 0) ){
+                            linha = linha_tiro_anterior;
+                            coluna = coluna_tiro_anterior - 1;
+                            verificou++;
+                            leste_oeste = 1;
+                            horizontal = 1;
+
+                        }
+                    
+                        resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
+                        }while((resp_verificacao != 2) && (verificou < 2));
+                    }
+                    if((resp_verificacao != 2) && (verificou == 2)){
+                        tiro_anterior = 0;
+                    }else{
+                        printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
+                    }
+                }
+            }
+            if(tiro_anterior==0){
             
                 printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
                 
@@ -721,20 +794,25 @@ void iniciar_jogo(){
                     if(resp_tiro == 0){
                         jogador.qtd_barcos--;
                         printf(ANSI_COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" ANSI_COLOR_RESET);
+                        tiro_anterior++;
                         linha_tiro_anterior = linha;
                         coluna_tiro_anterior = coluna;
-                        tiro_anterior = 1;
+                        
                         verificou=0;
                     }else if(resp_tiro == 1){
                         jogador.qtd_bombas--;
                         printf( "\t\t\t\t\t\t\t\t\t\t\tBOMBA ATINGIDA!");
                         if(verificou >= 4){
                             tiro_anterior = 0;
+                        }else if((tiro_anterior>1) && (verificou>=2) ){
+                            tiro_anterior = 0;
                         }
                         break;
                     }else{
                         printf("\t\t\t\t\t\t\t\t\t\t\tÁGUA ATINGIDA!");
                         if(verificou >= 4){
+                            tiro_anterior = 0;
+                        }else if((tiro_anterior>1) && (verificou>=2) ){
                             tiro_anterior = 0;
                         }
                         break;
