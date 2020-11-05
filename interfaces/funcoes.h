@@ -29,6 +29,7 @@
     int  atira(int linha, int coluna, char tab_atacado[MAX][MAX]);
     int  verifica_tiro(int linha, int coluna, char tab_atacado[MAX][MAX]);
 
-    void fim_jogo(char vencedor[40]);
+    int fim_jogo();
+    void mensagem_fim_jogo(int venceu);
 
 #endif
