@@ -8,6 +8,7 @@
 #define TAM_CONTRATORPEDO 2
 #define TAM_SUBMARINO 1
 #define TAM_BOMBA 1
+#define TOTAL_BARCO 10
 
 /*Cores*/
 #define ANSI_COLOR_RED      "\x1b[31m"
@@ -26,10 +27,18 @@
 #define HCYN "\x1b[0;96m"
 #define HWHT "\x1b[0;97m"
 
+typedef struct{
+    int tamanho;
+    int linha, coluna;
+    int qtdd_atingida;
+    char orientacao;
+}BARCO; /*  */
+
 typedef struct {
     char nome[40];
     char tabuleiro[MAX][MAX];
     int  qtd_barcos, qtd_bombas;
+    BARCO barco[10];
 }JOGADOR;
 
 
