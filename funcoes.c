@@ -131,7 +131,7 @@ void posicionar_embarcacao(){
     }while(1);
     
     if(tolower(gera_tab_auto) == 's'){
-        preenche_tabuleiro_auto(jogador.tabuleiro);
+        preenche_tabuleiro_auto(jogador.tabuleiro, jogador.barco); /*adicionei jogador.barco para tentar fazer a embarcação afundada*/
         limpa_tela();
         imprime_tabuleiro(jogador.tabuleiro);
     }else{
@@ -142,7 +142,7 @@ void posicionar_embarcacao(){
 
     printf("\n\t\tTABULEIRO PRONTO!");
 
-    preenche_tabuleiro_auto(cpu.tabuleiro);
+    preenche_tabuleiro_auto(cpu.tabuleiro, cpu.barco); /*adicionei cpu.barco para tentar fazer a embarcação afundada*/
 
     /*jogando*/
     
@@ -153,7 +153,7 @@ void posicionar_embarcacao(){
 }
 
 void preenche_tabuleiro(){
-    int linha, i, j, qtd_barco, tamanho, coluna;
+    int linha, i, j, /*k=0*/ qtd_barco, tamanho, coluna;
     char orientacao, barco[20], c;
 
     for(i = 1; i <= 5; i++){
@@ -251,8 +251,14 @@ void preenche_tabuleiro(){
             }
 
             if(i != 5){
+                /*jogador.barco[k].linha = linha;
+                jogador.barco[k].coluna = coluna;
+                jogador.barco[k].tamanho = tamanho;
+                jogador.barco[k].qtdd_atingida = 0;
+                jogador.barco[k].orientacao = orientacao;
+                k++;*/
                 insere_barco(linha, coluna, tamanho, jogador.tabuleiro, orientacao);
-                cria_borda_barco(linha, coluna, tamanho, jogador.tabuleiro, orientacao); /*não pode barcos adjacentes*/
+                cria_borda_barco(linha, coluna, tamanho, jogador.tabuleiro, orientacao); /*não pode barcos adjacentes*/               
             }
             else{
                 insere_bomba(linha, coluna, jogador.tabuleiro);
@@ -512,8 +518,8 @@ void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][
     }
 }
 
-void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){    
-    int i, j, qtd_barco, tamanho, coluna, linha, ori;
+void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX], BARCO barco[10]){    /*adicionei BARCO.barco para tentar fazer a embarcação afundada*/
+    int i, j, /*b=0*/ qtd_barco, tamanho, coluna, linha, ori;
     static int k;
     char orientacao;
     
@@ -582,8 +588,14 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
             } 
 
             if(i != 5){
+                /*barco[b].linha = linha;
+                barco[b].coluna = coluna;
+                barco[b].tamanho = tamanho;
+                barco[b].qtdd_atingida = 0;
+                barco[b].orientacao = orientacao;
+                b++;*/
                 insere_barco(linha, coluna, tamanho, tabuleiro, orientacao);
-                cria_borda_barco(linha, coluna, tamanho, tabuleiro, orientacao); /*não pode barcos adjacentes*/
+                cria_borda_barco(linha, coluna, tamanho, tabuleiro, orientacao); /*não pode barcos adjacentes*/         
             }
             else{
                 insere_bomba(linha, coluna, tabuleiro);
@@ -594,8 +606,9 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
 
 void iniciar_jogo(){
 	int linha, coluna;
+    /*int orientacao, num_barco, tamanho_barco_CPU, tamanho_barco;*/
     int resp_verificacao, resp_tiro; 
-    int tiro_anterior=0, linha_tiro_anterior, coluna_tiro_anterior; 
+    int tiro_anterior=0, linha_tiro_anterior, coluna_tiro_anterior, primeira_linha, primeira_coluna; 
     int norte_sul, leste_oeste, k, verificou=0, horizontal;
 	char c, feedback[60]; 
     int fim_jogo = 0;
@@ -637,7 +650,7 @@ void iniciar_jogo(){
                     
                     if(resp_tiro == 0){
                         cpu.qtd_barcos--;
-
+ 
                         if(cpu.qtd_barcos == 0){
                             limpa_tela();
                             imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
@@ -647,7 +660,7 @@ void iniciar_jogo(){
                             break;
                         }
 
-                        strcpy(feedback, "\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO! JOGUE NOVMENTE.");
+                        strcpy(feedback, "\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO! JOGUE NOVAMENTE.");
 
                     }else if(resp_tiro == 1){
                         cpu.qtd_bombas--; 
@@ -670,6 +683,41 @@ void iniciar_jogo(){
             imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
             if(resp_tiro == 0){
                 printf(COLOR_GREEN"%s"COLOR_RESET, feedback);
+
+                /*printf("\t\tlinha = %d       coluna = %d", linha, coluna);
+                for(b=0;b<10;b++){
+                    for(t=0;t < (cpu.barco[b].tamanho);t++){
+                        if( (linha == (cpu.barco[b].linha)) && (cpu.barco[b].orientacao != 'h') && (cpu.barco[b].orientacao != 'v') ){
+                            (cpu.barco[b].qtdd_atingida)++;
+                            num_barco = b;
+                            b=10;
+                            break;
+                        }else{
+                            orientacao = (cpu.barco[b].orientacao == 'h')? coluna : linha;
+                            if( (orientacao == linha) && (linha == ((cpu.barco[b].linha) + t) ) ){
+                                (cpu.barco[b].qtdd_atingida)++;
+                                num_barco = b;
+                                b=10;
+                                break;
+                            }else if((orientacao == coluna) && (coluna == ((cpu.barco[b].coluna) + t) )){
+                                (cpu.barco[b].qtdd_atingida)++;
+                                num_barco = b;
+                                b=10;
+                                break;
+                            }
+                        }
+                    }
+                }
+                printf("\n\t\tlinha = %d       coluna = %d", linha, coluna);
+                printf("\n\t\torientacao = %c      linha barco[%d] = %d       coluna barco[%d] = %d",cpu.barco[num_barco].orientacao, num_barco, cpu.barco[num_barco].linha, num_barco, cpu.barco[num_barco].coluna);
+                printf("\n\t\tqtdd atingida = %d      tamanho barco[%d] = %d",cpu.barco[num_barco].qtdd_atingida, num_barco, cpu.barco[num_barco].tamanho);
+
+                if( (cpu.barco[num_barco].tamanho) == (cpu.barco[num_barco].qtdd_atingida) ){
+                    printf(HBLU "\t\tEMBARCAÇÃO AFUNDADA!" ANSI_COLOR_RESET);
+                    cpu.barco[b].qtdd_atingida=0;
+                }else{
+                    printf(ANSI_COLOR_GREEN"%s"ANSI_COLOR_RESET, feedback);    
+                }*/
             }else{
                 printf("%s", feedback);
                 break;
@@ -686,38 +734,37 @@ void iniciar_jogo(){
                 if(tiro_anterior == 1){
                     k = rand()%4;
                     do{
-                        if(k==0 ){
+                        if(k==0){
                             linha = linha_tiro_anterior + 1;
                             coluna = coluna_tiro_anterior;
-                            c++;
+                            k++;
                             verificou++;
                             horizontal = 0;
  
-                        }else if( k==1 ){
+                        }else if(k==1){
                             linha = linha_tiro_anterior - 1;
                             coluna = coluna_tiro_anterior;
-                            c++;
+                            k++;
                             verificou++;
                             horizontal = 0;
 
-                        }else if( k==2 ){
+                        }else if(k==2){
                             linha = linha_tiro_anterior;
                             coluna = coluna_tiro_anterior + 1;
-                            c++;
+                            k++;
                             verificou++;
                             horizontal = 1;
  
-                        }else if( k==3 ){
+                        }else if(k==3){
                             linha = linha_tiro_anterior;
                             coluna = coluna_tiro_anterior - 1;
-                            c=0;
+                            k=0;
                             verificou++;
                             horizontal = 1;
-
                         }
                     
                     resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
-                    }while((resp_verificacao != 2) && (verificou <= 4));
+                    }while((resp_verificacao != 2) && (verificou < 4));
 
                     if((resp_verificacao != 2) && (verificou == 4)){
                         tiro_anterior = 0;
@@ -748,7 +795,20 @@ void iniciar_jogo(){
                         }while((resp_verificacao != 2) && (verificou < 2));
 
                         if((resp_verificacao != 2) && (verificou == 2)){
-                            tiro_anterior = 0;
+                            if( (linha_tiro_anterior - primeira_linha) > 0) {
+                                norte_sul = -1; 
+                            }else{
+                                norte_sul = 1;
+                            }  
+                            
+                            resp_verificacao = verifica_tiro( (primeira_linha + norte_sul), coluna, jogador.tabuleiro);
+                            if(resp_verificacao!=2){
+                                tiro_anterior = 0;
+                            }else{
+                                linha = primeira_linha + norte_sul;
+                                coluna = primeira_coluna;
+                            }
+                            
                         }else{
                             printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
                         }
@@ -774,11 +834,24 @@ void iniciar_jogo(){
                     
                         resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
                         }while((resp_verificacao != 2) && (verificou < 2));
-                    }
-                    if((resp_verificacao != 2) && (verificou == 2)){
-                        tiro_anterior = 0;
-                    }else{
-                        printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
+
+                        if((resp_verificacao != 2) && (verificou == 2)){
+                            if( (coluna_tiro_anterior - primeira_coluna) > 0) {
+                                leste_oeste = -1; 
+                            }else{
+                                leste_oeste = 1;
+                            }  
+                            
+                            resp_verificacao = verifica_tiro( linha, (primeira_coluna + leste_oeste), jogador.tabuleiro);
+                            if(resp_verificacao!=2){
+                                tiro_anterior = 0;
+                            }else{
+                                linha = primeira_linha;
+                                coluna = primeira_coluna + leste_oeste;
+                            }
+                        }else{
+                            printf("\n\n\t\t\t\t> VEZ DO OPONENTE!\n");
+                        }
                     }
                 }
             }
@@ -803,10 +876,39 @@ void iniciar_jogo(){
                         jogador.qtd_barcos--;
                         printf(COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" COLOR_RESET);
                         tiro_anterior++;
+                        if(tiro_anterior==1){
+                            primeira_linha = linha;
+                            primeira_coluna = coluna;
+                        }
                         linha_tiro_anterior = linha;
                         coluna_tiro_anterior = coluna;
-                        
                         verificou=0;
+                        
+
+                        /*tiro_anterior++;
+                        if(tiro_anterior==1){
+                            primeira_linha = linha;
+                            primeira_coluna = coluna;
+                            for(b=0;b<10;b++){
+                                for(t=0;t < (jogador.barco[b].tamanho);t++){
+                                    if(primeira_linha == ((jogador.barco[b].linha) + t) ){
+                                        tamanho_barco = jogador.barco[b].tamanho;
+                                        b=10;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(tamanho_barco==tiro_anterior){
+                            printf(HBLU "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO AFUNDADA!" ANSI_COLOR_RESET);
+                            tiro_anterior=0;
+                        }else{
+                            printf(ANSI_COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" ANSI_COLOR_RESET);
+                        }
+                        linha_tiro_anterior = linha;
+                        coluna_tiro_anterior = coluna;
+                        verificou=0;*/
+
                     }else if(resp_tiro == 1){
                         jogador.qtd_bombas--;
                         printf( "\t\t\t\t\t\t\t\t\t\t\tBOMBA ATINGIDA!");
