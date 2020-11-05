@@ -16,33 +16,37 @@
 JOGADOR jogador, cpu;
 
 int tela_inicial(){
-    int opcao;
+    int opcao, i;
+    char c;
     
     limpa_tela();    
     titulo();    /*Escreve Batalha Naval*/
+    menu_inicial();   
     
-    printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\tFEITO POR: ELLEN, IGOR e KEVIN\n\n\n");
-
-    printf("\t\t\t\t\t\t\t ----------------------------------------\n");
-    printf("\t\t\t\t\t\t\t|\t\tMENU INICIAL\t\t |\n");
-    printf("\t\t\t\t\t\t\t|----------------------------------------|\n");
-    printf("\t\t\t\t\t\t\t|\t\t\t\t\t |\n");
-    printf("\t\t\t\t\t\t\t|\t> [1] INICIAR\t\t\t |\n");
-    printf("\t\t\t\t\t\t\t|\t> [2] INSTRUÇÕES\t\t |\n");
-    printf("\t\t\t\t\t\t\t|\t> [3] RANKING\t\t\t |\n");
-    printf("\t\t\t\t\t\t\t|\t> [4] SAIR\t\t\t |\n");
-    printf("\t\t\t\t\t\t\t|\t\t\t\t\t |\n");
-    printf("\t\t\t\t\t\t\t ---------------------------------------\n\n");    
-
-    printf("\n\n\t\t\t\t\t\t\t> DIGITE O NÚMERO DA OPÇÃO: ");    
-    scanf("%d", &opcao);
-    limpa_buffer();
-    while(!(1 <= opcao && opcao <= 4)){        
-        printf("\t\t\t\t\t\t\t> OPÇÃO INEXISTENTE. POR FAVOR, TENTE NOVAMENTE.\n");
-        printf("\n\n\t\t\t\t\t\t\t> DIGITE O NÚMERO DA OPÇÃO: ");    
-        scanf("%d", &opcao);
+    do{
+        printf("\n\n\t\t\t\t\t\t\t     > DIGITE O NÚMERO DA OPÇÃO: ");    
         limpa_buffer();
+        scanf("%d", &opcao);        
+        if(!(0 <= opcao && opcao <= 2)){
+            limpa_tela();
+            titulo();
+            menu_inicial();  
+            printf("\t\t\t\t\t\t\t> OPÇÃO INEXISTENTE. POR FAVOR, TENTE NOVAMENTE.\n");        
+        }
+    }while(!(0 <= opcao && opcao <= 2));
+    limpa_tela();
+    limpa_buffer();
+    titulo();
+    menu_inicial();  
+
+    printf("\n\n\t\t\t\t\t\t\t     > INSIRA SEU NOME: ");
+    while(c != '\n'){
+        scanf("%c", &c);
+        c = toupper(c);
+        jogador.nome[i++] = c;     
     }
+    jogador.nome[i-1] = '\0';
+    
     return opcao;
 }
 
@@ -56,30 +60,46 @@ void titulo(){
     printf("\t\t\t\t\t╚═══╝╚╝ ╚╝  ╚╝  ╚╝ ╚╝╚═══╝╚╝ ╚╝╚╝ ╚╝     ╚╝ ╚═╝╚╝ ╚╝  ╚╝  ╚╝ ╚╝╚═══╝\n");
 }
 
+void menu_inicial(){
+    printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\tFEITO POR: ELLEN, IGOR e KEVIN\n\n\n");
+
+    printf("\t\t\t\t\t\t\t    ----------------------------------------\n");
+    printf("\t\t\t\t\t\t\t   |               MENU INICIAL             |\n");
+    printf("\t\t\t\t\t\t\t   |----------------------------------------|\n");
+    printf("\t\t\t\t\t\t\t   |                                        |\n");
+    printf("\t\t\t\t\t\t\t   |     > [1] INICIAR                      |\n");
+    printf("\t\t\t\t\t\t\t   |     > [2] INSTRUÇÕES                   |\n");
+    printf("\t\t\t\t\t\t\t   |     > [0] SAIR                         |\n");
+    printf("\t\t\t\t\t\t\t   |                                        |\n");
+    printf("\t\t\t\t\t\t\t    ---------------------------------------\n\n");    
+}
+
 void instrucoes(){
     char opcao;
 
     limpa_tela();
     titulo();
-    printf("\n\n\n\t\t\t\t   --------------------------------------------------------------------------------------------------\n");
-    printf("\t\t\t\t  |\t\t\t\t         INSTRUÇÕES SOBRE O JOGO\t\t\t\t     |\n");
+    printf("\n\n\n");
+    printf("\t\t\t\t   --------------------------------------------------------------------------------------------------\n");
+    printf("\t\t\t\t  |                                      INSTRUÇÕES SOBRE O JOGO                                     |\n");
     printf("\t\t\t\t  |--------------------------------------------------------------------------------------------------|\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
     printf("\t\t\t\t  |     Batalha Naval consiste em um jogo estratégico de tabuleiro 10x10 formado por 2 jogadores,    |\n");
-    printf("\t\t\t\t  | cujo principal objetivo é acabar com todas a embarcações do adversário.\t\t\t     |\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
+    printf("\t\t\t\t  | cujo principal objetivo é acabar com todas a embarcações do adversário.                          |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
     printf("\t\t\t\t  |     Antes de iniciar a partida, os jogadores devem posicionar, vertical ou horizontalmente, suas |\n");
-    printf("\t\t\t\t  | peças da maneira que achar melhor, respeitando a regra não de haver embarcações adjacentes.\t     |\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
-    printf("\t\t\t\t  |     Depois disso, o primeiro jogador, sorteado aleatoriamente, realiza o primeiro tiro, ou seja, |\n");
-    printf("\t\t\t\t  | diz qual casa do tabuleiro adversário deseja atacar, inserindo as coordenadas da posição.        |\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
+    printf("\t\t\t\t  | embarcações da maneira que achar melhor, respeitando a regra não de haver embarcações adjacentes,|\n");
+    printf("\t\t\t\t  | exceto para as bombas. Há também a possibilidade de gerar o tabuleiro aleatoriamente.            |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
+    printf("\t\t\t\t  |     Depois disso, o primeiro jogador realiza o primeiro tiro, ou seja, diz qual casa do tabuleiro|\n");
+    printf("\t\t\t\t  | adversário deseja atacar, inserindo as coordenadas da posição.                                   |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
     printf("\t\t\t\t  |     Caso acerte uma embarcação, ele joga novamente. Caso contrário, a vez é passada para o outro |\n");
-    printf("\t\t\t\t  | jogador.\t\t\t\t\t\t\t\t\t\t\t     |\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
+    printf("\t\t\t\t  | jogador.                                                                                         |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
     printf("\t\t\t\t  |     O jogo termina quando um jogador perde todas as embarcações ou quando você acerte todas as   |\n");
-    printf("\t\t\t\t  | bombas do adversário, e nesse último caso, você é o perdedor.\t\t\t\t     |\n");
-    printf("\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t\t     |\n");
+    printf("\t\t\t\t  | bombas do adversário, e nesse último caso, você é o perdedor.                                    |\n");
+    printf("\t\t\t\t  |                                                                                                  |\n");
     printf("\t\t\t\t   --------------------------------------------------------------------------------------------------\n\n");  
      
     printf("\n\n\t\t\t\t\t\t\t\t> DIGITE QUALQUER COISA PARA VOLTAR: ");    
@@ -89,17 +109,7 @@ void instrucoes(){
 
 void posicionar_embarcacao(){
     char c, gera_tab_auto;
-    int i = 0;
-        
-    printf("\n\n\t\t\t\t\tINSIRA SEU NOME: ");
-    limpa_buffer();
-
-    while(c != '\n'){
-        scanf("%c", &c);
-        c = toupper(c);
-        jogador.nome[i++] = c;     
-    }
-    jogador.nome[i-1] = '\0';
+    
     inicializa_tabuleiro(jogador.tabuleiro);
     inicializa_tabuleiro(cpu.tabuleiro);
 
@@ -114,7 +124,7 @@ void posicionar_embarcacao(){
         if(tolower(gera_tab_auto) != 's' && tolower(gera_tab_auto) != 'n'){            
             limpa_tela();        
             imprime_tabuleiro(jogador.tabuleiro);
-            printf("\t\t\t\t\t\t\t> OPÇÃO INEXISTENTE. POR FAVOR, TENTE NOVAMENTE.\n");
+            printf("\t\t> OPÇÃO INEXISTENTE. POR FAVOR, TENTE NOVAMENTE.\n");
         }else
             break;       
 
@@ -265,7 +275,7 @@ void inicializa_tabuleiro(char tabuleiro[MAX][MAX]){
 
 void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
     int i, j;
-    printf("\n\n\n\t\t   POSICIONE SUAS PEÇAS:\n\t\t ------------------------------------------\n");
+    printf("\n\n\n\t\t   POSICIONE SUAS EMBARACAÇÕES:\n\t\t ------------------------------------------\n");
     for(i = 0; i < MAX; i++){
         printf("\t\t");
 
@@ -282,35 +292,39 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                     printf("%2d| ", i);     /*Números (linhas)*/
             }else{
                 if(tabuleiro[i][j] == '.')
-                    printf(ANSI_COLOR_BLUE "%c   " ANSI_COLOR_RESET, tabuleiro[i][j]);
+                    printf(HBLU "%c   " COLOR_RESET, tabuleiro[i][j]);
                 else if(tabuleiro[i][j] == '*')
-                    printf(ANSI_COLOR_GREY "%c   " ANSI_COLOR_RESET, tabuleiro[i][j]);
+                    printf(COLOR_GREY "%c   " COLOR_RESET, tabuleiro[i][j]);
                 else if(tabuleiro[i][j] == '1')
-                    printf(ANSI_COLOR_GREEN"%c   "ANSI_COLOR_RESET, tabuleiro[i][j]);
+                    printf(COLOR_GREEN"%c   "COLOR_RESET, tabuleiro[i][j]);
                 else
-                    printf(HYEL "%c   "ANSI_COLOR_RESET, tabuleiro[i][j]);
+                    printf(COLOR_YELLOW "%c   "COLOR_RESET, tabuleiro[i][j]);
             }   
-
+ 
             if(j == MAX -1){
                 printf("\t\t");
                 switch (i){
                 case 0: 
-                    printf("LEGENDA:");
+                    printf("SÍMBOLOS:\t\t\t\t   EMBARCAÇÕES: ");
                     break;
                 case 2:
-                    printf("1 PORTA-AVIÕES (4 CASAS): 1");
+                    printf(COLOR_GREEN"1"COLOR_RESET" - BARCOS");
+                    printf("\t\t\t   1 PORTA-AVIÕES (4 CASAS): 1");
                     break;
                 case 4:
-                    printf("2 CRUZADOS (3 CASAS): 1");
+                    printf(COLOR_YELLOW"@"COLOR_RESET" - BOMBAS");
+                    printf("\t\t\t   2 CRUZADOS (3 CASAS, CADA): 1");
                     break;
                 case 6:
-                    printf("3 CONTRATORPEDOS (2 CASAS): 1");
+                    printf(COLOR_BLUE"."COLOR_RESET" - ÁGUA");
+                    printf("\t\t\t   3 CONTRATORPEDOS (2 CASAS, CADA): 1");
                     break;
                 case 8:
-                    printf("4 SUBMARINOS (1 CASA): 1");
+                    printf("* - POSIÇÃO INVÁLIDA");
+                    printf("\t\t   4 SUBMARINOS (1 CASA, CADA): 1");
                     break;
                 case 10: 
-                    printf("3 BOMBAS (1 CASA): @");
+                    printf("\t\t\t\t   3 BOMBAS (1 CASA, CADA): @");
                     break;
                 default:
                     break;
@@ -346,9 +360,9 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
                 else if (tabuleiro[i][j] == '#')
                 	printf("1   " );
                 else if(tabuleiro[i][j] == 'X')
-                    printf(ANSI_COLOR_RED "X   " ANSI_COLOR_RESET);
+                    printf(COLOR_RED "X   " COLOR_RESET);
                 else if ((tabuleiro[i][j] == '1') || (tabuleiro[i][j] == '@') || (tabuleiro[i][j] == '*') || (tabuleiro[i][j] == '.')){
-                	printf(ANSI_COLOR_BLUE ".   " ANSI_COLOR_RESET);
+                	printf(COLOR_BLUE ".   " COLOR_RESET);
                 }                
             }    
         }
@@ -370,9 +384,9 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
                 else if (tabuleiro2[i][j] == '#')                	
                 	printf("1   " );
                 else if(tabuleiro2[i][j] == 'X')
-                    printf(ANSI_COLOR_RED "X   " ANSI_COLOR_RESET);
+                    printf(COLOR_RED "X   " COLOR_RESET);
                 else if ((tabuleiro2[i][j] == '1') || (tabuleiro2[i][j] == '@') ||(tabuleiro2[i][j] == '*') || tabuleiro2[i][j] == '.'){
-                	printf(ANSI_COLOR_BLUE ".   " ANSI_COLOR_RESET);
+                	printf(COLOR_BLUE ".   " COLOR_RESET);
                 }
             }
         }
@@ -506,39 +520,37 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
     for(i = 1; i <= 5; i++){
         switch (i){
             case 1:
-                qtd_barco = 1;
-                tamanho = TAM_PORTA_AVIAO;
+                qtd_barco = QTD_PORTA_AVIAO;
+                tamanho   = TAM_PORTA_AVIAO;
                 break; 
             
             case 2:
-                qtd_barco = 2;
-                tamanho = TAM_CRUZADO;
+                qtd_barco = QTD_CRUZADO;
+                tamanho   = TAM_CRUZADO;
                 break;
             
             case 3:
-                qtd_barco = 3;
-                tamanho = TAM_CONTRATORPEDO;
+                qtd_barco = QTD_CONTRATORPEDO;
+                tamanho   = TAM_CONTRATORPEDO;
                 break;
             
             case 4:
-                qtd_barco = 4;
-                tamanho = TAM_SUBMARINO;
+                qtd_barco = QTD_SUBMARINO;
+                tamanho   = TAM_SUBMARINO;
                 break;
             
             case 5:
-                qtd_barco = 3;
-                tamanho = TAM_BOMBA;
+                qtd_barco = QTD_BOMBA;
+                tamanho   = TAM_BOMBA;
                 break;            
         }
         srand(k + time(NULL));
         k++;
         for(j = 1; j <= qtd_barco; j++){
             
-            /* Gerar linha e coluna */
             linha =  1 + rand()%10; /*[1,10]*/ 
             coluna = 1 + rand()%10; /*[1,10] => [A,J]*/
-            
-            /* Gerar orientação */ 
+                        
             if(i < 4){
                 ori = rand()%2; /*[0,1]*/ 
                 orientacao = (!ori)? 'h' : 'v'; /* 0 = h; 1 = v */ 
@@ -547,11 +559,10 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
             /* Verifica */    
             if(i < 5){        
                 while(!verifica_coordenadas(linha, coluna, tamanho, tabuleiro, orientacao)){
-                    /* Gerar linha e coluna */
+
                     linha =  1 + rand()%10; /*[1,10]*/ 
                     coluna = 1 + rand()%10; /*[1,10] => [A,J]*/
                 
-                    /* Gerar orientação */ 
                     if(i < 4){
                         ori = rand()%2; /*[0,1]*/ 
                         orientacao = (!ori)? 'h' : 'v'; /* 0 = h; 1 = v */ 
@@ -559,11 +570,10 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){
                 }
             }else{
                 while(!verifica_coordenadas_bomba(linha, coluna, tabuleiro)){
-                    /* Gerar linha e coluna */
+    
                     linha =  1 + rand()%10; /*[1,10]*/ 
                     coluna = 1 + rand()%10; /*[1,10] => [A,J]*/
                 
-                    /* Gerar orientação */ 
                     if(i < 4){
                         ori = rand()%2; /*[0,1]*/ 
                         orientacao = (!ori)? 'h' : 'v'; /* 0 = h; 1 = v */ 
@@ -631,7 +641,7 @@ void iniciar_jogo(){
                         if(cpu.qtd_barcos == 0){
                             limpa_tela();
                             imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
-                            printf(ANSI_COLOR_GREEN"\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO!"ANSI_COLOR_RESET);
+                            printf(COLOR_GREEN"\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO!"COLOR_RESET);
                             printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
                             fim_jogo = 1;
                             break;
@@ -659,7 +669,7 @@ void iniciar_jogo(){
             limpa_tela();
             imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
             if(resp_tiro == 0){
-                printf(ANSI_COLOR_GREEN"%s"ANSI_COLOR_RESET, feedback);
+                printf(COLOR_GREEN"%s"COLOR_RESET, feedback);
             }else{
                 printf("%s", feedback);
                 break;
@@ -782,7 +792,7 @@ void iniciar_jogo(){
                     resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
                 }while(resp_verificacao != 2);
             }
-                delay();
+                delay(2);
                 if(resp_verificacao == 2){
                     resp_tiro = atira(linha, coluna, jogador.tabuleiro);
                     
@@ -791,7 +801,7 @@ void iniciar_jogo(){
                     
                     if(resp_tiro == 0){
                         jogador.qtd_barcos--;
-                        printf(ANSI_COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" ANSI_COLOR_RESET);
+                        printf(COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" COLOR_RESET);
                         tiro_anterior++;
                         linha_tiro_anterior = linha;
                         coluna_tiro_anterior = coluna;
@@ -819,12 +829,12 @@ void iniciar_jogo(){
             
             if(jogador.qtd_bombas == 0){
                 printf("\n\n\t\tPARABÉNS, %s, VOCÊ VENCEU!\n",jogador.nome);
-                delay();
+                delay(2);                
                 fim_jogo = 1;
                 break;
             }else if(jogador.qtd_barcos == 0){
                 printf("\n\n\t\tVOCÊ PERDEU, %s.",jogador.nome);
-                delay();
+                delay(2);
                 fim_jogo = 1;
                 break;
             }
@@ -832,7 +842,7 @@ void iniciar_jogo(){
 		}while(1);
 
         if(fim_jogo)
-            break;                
+            break;            
 	}
 
     printf("\n\t\t> DIGITE QUALQUER COISA PARA VOLTAR AO MENU INICIAL: ");    
@@ -878,6 +888,12 @@ int atira(int linha, int coluna, char tab_atacado[MAX][MAX]){
     return resp;
 }
 
+void fim_jogo(char vencedor[40]){
+    /*if(strcmp(vencedor, jogador.nome) == 0){
+
+    }*/
+}
+
 void limpa_tela(){
     #ifdef __WIN32__
         system("cls");
@@ -900,10 +916,10 @@ void muda_config_windows(){
     #endif
 }
 
-void delay(){
+void delay(int i){
     #ifdef __WIN32__
-        Sleep(2000);
+        Sleep(i*1000);
     #else 
-        sleep(2);
+        sleep(i);
     #endif
 }

@@ -4,9 +4,10 @@
     void limpa_tela();
     void limpa_buffer();
     void muda_config_windows();
-    void delay();
+    void delay(int i);
 
     int  tela_inicial();
+    void menu_inicial();
     void titulo();
     void instrucoes();
 
@@ -27,5 +28,7 @@
     void iniciar_jogo();    
     int  atira(int linha, int coluna, char tab_atacado[MAX][MAX]);
     int  verifica_tiro(int linha, int coluna, char tab_atacado[MAX][MAX]);
+
+    void fim_jogo(char vencedor[40]);
 
 #endif

@@ -7,7 +7,6 @@
 #include "interfaces/funcoes.h"
 
 int main(void){  
-    int i;    
     
     muda_config_windows();
     while(1){        
@@ -19,11 +18,9 @@ int main(void){
         case 2:            
             instrucoes();
             break;
-        case 3:
-            break;
-        case 4:
+        case 0:
             printf("\n\n\t\t\t\t\t\t\t\t     FIM DE JOGO\n");
-            for(i = 0; i < 555555555; i++) ; /* Loop para o delay */
+            delay(2);
             limpa_tela();
             return 0;
             break;

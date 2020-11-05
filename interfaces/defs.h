@@ -9,13 +9,22 @@
 #define TAM_SUBMARINO 1
 #define TAM_BOMBA 1
 
+/*Quantidade de barcos*/
+#define QTD_PORTA_AVIAO 1
+#define QTD_CRUZADO 2
+#define QTD_CONTRATORPEDO 3
+#define QTD_SUBMARINO 4
+#define QTD_BOMBA 3
+
 /*Cores*/
-#define ANSI_COLOR_RED      "\x1b[31m"
-#define ANSI_COLOR_BLUE     "\x1b[34m"
-#define ANSI_COLOR_SKY_BLUE "\x1b[96m"
-#define ANSI_COLOR_GREEN    "\x1b[32m"
-#define ANSI_COLOR_GREY     "\x1b[37m"
-#define ANSI_COLOR_RESET    "\x1b[0m"
+#define COLOR_RED      "\x1b[31m"
+#define COLOR_BLUE     "\x1b[94m"
+#define COLOR_SKY_BLUE "\x1b[96m"
+#define COLOR_GREEN    "\x1b[32m"
+#define COLOR_GREY     "\x1b[37m"
+#define COLOR_YELLOW   "\x1b[93m"
+#define COLOR_RESET    "\x1b[0m"
+
 /*High intensty text*/
 #define HBLK "\x1b[0;90m"
 #define HRED "\x1b[0;91m"
@@ -31,7 +40,5 @@ typedef struct {
     char tabuleiro[MAX][MAX];
     int  qtd_barcos, qtd_bombas;
 }JOGADOR;
-
-
 
 #endif
