@@ -133,7 +133,7 @@ void posicionar_embarcacao(){
     }while(1);
     
     if(tolower(gera_tab_auto) == 's'){
-        preenche_tabuleiro_auto(jogador.tabuleiro, jogador.barco); /*adicionei jogador.barco para tentar fazer a embarcação afundada*/
+        preenche_tabuleiro_auto(jogador.tabuleiro); 
         limpa_tela();
         imprime_tabuleiro(jogador.tabuleiro);
     }else{
@@ -144,7 +144,7 @@ void posicionar_embarcacao(){
 
     printf("\n\t\tTABULEIRO PRONTO!");
 
-    preenche_tabuleiro_auto(cpu.tabuleiro, cpu.barco); /*adicionei cpu.barco para tentar fazer a embarcação afundada*/
+    preenche_tabuleiro_auto(cpu.tabuleiro); 
    
     printf("\n\n\t\t> DIGITE QUALQUER COISA PARA AVANÇAR: ");    
     scanf("%c", &c);
@@ -152,7 +152,7 @@ void posicionar_embarcacao(){
 }
 
 void preenche_tabuleiro(){
-    int linha, i, j, /*k=0*/ qtd_barco, tamanho, coluna;
+    int linha, i, j, qtd_barco, tamanho, coluna;
     char orientacao, barco[20], c;
 
     for(i = 1; i <= 5; i++){
@@ -248,12 +248,6 @@ void preenche_tabuleiro(){
             }
 
             if(i != 5){
-                /*jogador.barco[k].linha = linha;
-                jogador.barco[k].coluna = coluna;
-                jogador.barco[k].tamanho = tamanho;
-                jogador.barco[k].qtdd_atingida = 0;
-                jogador.barco[k].orientacao = orientacao;
-                k++;*/
                 insere_barco(linha, coluna, tamanho, jogador.tabuleiro, orientacao);
                 cria_borda_barco(linha, coluna, tamanho, jogador.tabuleiro, orientacao); /*não pode barcos adjacentes*/               
             }
@@ -513,8 +507,8 @@ void cria_borda_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][
     }
 }
 
-void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX], BARCO barco[10]){    /*adicionei BARCO.barco para tentar fazer a embarcação afundada*/
-    int i, j, /*b=0*/ qtd_barco, tamanho, coluna, linha, ori;
+void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]){    
+    int i, j,qtd_barco, tamanho, coluna, linha, ori;
     static int k;
     char orientacao;
     
@@ -583,12 +577,6 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX], BARCO barco[10]){    /*ad
             } 
 
             if(i != 5){
-                /*barco[b].linha = linha;
-                barco[b].coluna = coluna;
-                barco[b].tamanho = tamanho;
-                barco[b].qtdd_atingida = 0;
-                barco[b].orientacao = orientacao;
-                b++;*/
                 insere_barco(linha, coluna, tamanho, tabuleiro, orientacao);
                 cria_borda_barco(linha, coluna, tamanho, tabuleiro, orientacao); /*não pode barcos adjacentes*/         
             }
@@ -601,7 +589,6 @@ void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX], BARCO barco[10]){    /*ad
 
 void iniciar_jogo(){
 	int linha, coluna;
-    /*int orientacao, num_barco, tamanho_barco_CPU, tamanho_barco;*/
     int resp_verificacao, resp_tiro; 
     int tiro_anterior=0, linha_tiro_anterior, coluna_tiro_anterior, primeira_linha, primeira_coluna; 
     int norte_sul, leste_oeste, k, verificou=0, horizontal;
@@ -660,40 +647,6 @@ void iniciar_jogo(){
                 printf(COLOR_GREEN"%s"COLOR_RESET, feedback);                 
                 if(fim_jogo())
                     break;             
-                /*printf("\t\tlinha = %d       coluna = %d", linha, coluna);
-                for(b=0;b<10;b++){
-                    for(t=0;t < (cpu.barco[b].tamanho);t++){
-                        if( (linha == (cpu.barco[b].linha)) && (cpu.barco[b].orientacao != 'h') && (cpu.barco[b].orientacao != 'v') ){
-                            (cpu.barco[b].qtdd_atingida)++;
-                            num_barco = b;
-                            b=10;
-                            break;
-                        }else{
-                            orientacao = (cpu.barco[b].orientacao == 'h')? coluna : linha;
-                            if( (orientacao == linha) && (linha == ((cpu.barco[b].linha) + t) ) ){
-                                (cpu.barco[b].qtdd_atingida)++;
-                                num_barco = b;
-                                b=10;
-                                break;
-                            }else if((orientacao == coluna) && (coluna == ((cpu.barco[b].coluna) + t) )){
-                                (cpu.barco[b].qtdd_atingida)++;
-                                num_barco = b;
-                                b=10;
-                                break;
-                            }
-                        }
-                    }
-                }
-                printf("\n\t\tlinha = %d       coluna = %d", linha, coluna);
-                printf("\n\t\torientacao = %c      linha barco[%d] = %d       coluna barco[%d] = %d",cpu.barco[num_barco].orientacao, num_barco, cpu.barco[num_barco].linha, num_barco, cpu.barco[num_barco].coluna);
-                printf("\n\t\tqtdd atingida = %d      tamanho barco[%d] = %d",cpu.barco[num_barco].qtdd_atingida, num_barco, cpu.barco[num_barco].tamanho);
-
-                if( (cpu.barco[num_barco].tamanho) == (cpu.barco[num_barco].qtdd_atingida) ){
-                    printf(HBLU "\t\tEMBARCAÇÃO AFUNDADA!" ANSI_COLOR_RESET);
-                    cpu.barco[b].qtdd_atingida=0;
-                }else{
-                    printf(ANSI_COLOR_GREEN"%s"ANSI_COLOR_RESET, feedback);    
-                }*/
             }else{
                 printf("%s", feedback);                
                 break;
@@ -855,30 +808,6 @@ void iniciar_jogo(){
                     linha_tiro_anterior = linha;
                     coluna_tiro_anterior = coluna;
                     verificou = 0;                    
-                    
-                    /*tiro_anterior++;
-                    if(tiro_anterior==1){
-                        primeira_linha = linha;
-                        primeira_coluna = coluna;
-                        for(b=0;b<10;b++){
-                            for(t=0;t < (jogador.barco[b].tamanho);t++){
-                                if(primeira_linha == ((jogador.barco[b].linha) + t) ){
-                                    tamanho_barco = jogador.barco[b].tamanho;
-                                    b=10;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if(tamanho_barco==tiro_anterior){
-                        printf(HBLU "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO AFUNDADA!" ANSI_COLOR_RESET);
-                        tiro_anterior=0;
-                    }else{
-                        printf(ANSI_COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" ANSI_COLOR_RESET);
-                    }
-                    linha_tiro_anterior = linha;
-                    coluna_tiro_anterior = coluna;
-                    verificou=0;*/
 
                     if(fim_jogo())
                         break;

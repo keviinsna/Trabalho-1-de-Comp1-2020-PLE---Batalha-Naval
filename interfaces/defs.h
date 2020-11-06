@@ -35,19 +35,12 @@
 #define HMAG "\x1b[0;95m"
 #define HCYN "\x1b[0;96m"
 #define HWHT "\x1b[0;97m"
-
-typedef struct{
-    int tamanho;
-    int linha, coluna;
-    int qtdd_atingida;
-    char orientacao;
-}BARCO; /*  */
+ 
 
 typedef struct {
     char nome[40];
     char tabuleiro[MAX][MAX];
     int  qtd_barcos, qtd_bombas;
-    BARCO barco[10];
 }JOGADOR;
 
 #endif

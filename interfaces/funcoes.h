@@ -19,7 +19,7 @@
     void insere_barco(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
     void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]);
     void preenche_tabuleiro();
-    void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX], BARCO barco[10]); /* */
+    void preenche_tabuleiro_auto(char tabuleiro[MAX][MAX]); 
     
     int  verifica_coordenadas(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao);
     int verifica_coordenadas_bomba(int linha, int coluna, char tabuleiro[MAX][MAX]);
@@ -28,6 +28,7 @@
     void iniciar_jogo();    
     int  atira(int linha, int coluna, char tab_atacado[MAX][MAX]);
     int  verifica_tiro(int linha, int coluna, char tab_atacado[MAX][MAX]);
+    int inteligencia_CPU(int tiro_anterior, int linha_tiro_anterior, int coluna_tiro_anterior, int *linha, int *coluna, int *verificou);
 
     int fim_jogo();
     void mensagem_fim_jogo(int venceu);
