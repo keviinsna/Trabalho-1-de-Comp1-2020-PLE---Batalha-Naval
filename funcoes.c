@@ -289,7 +289,7 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                     printf("%2d| ", i);     /*Números (linhas)*/
             }else{
                 if(tabuleiro[i][j] == '.')
-                    printf(HBLU "%c   " COLOR_RESET, tabuleiro[i][j]);
+                    printf(COLOR_BLUE "%c   " COLOR_RESET, tabuleiro[i][j]);
                 else if(tabuleiro[i][j] == '*')
                     printf(COLOR_GREY "%c   " COLOR_RESET, tabuleiro[i][j]);
                 else if(tabuleiro[i][j] == '1')
@@ -451,9 +451,8 @@ int verifica_coordenadas_bomba(int linha, int coluna, char tabuleiro[MAX][MAX]){
         if(linha < 1 || coluna < 1 || linha > MAX - 1 || coluna > MAX - 1)
             resp = 0;
         else{
-            if(tabuleiro[linha][coluna] == '1'){
+            if(tabuleiro[linha][coluna] == '1')
                 resp = 0;
-            }
         }
     return resp;
 }
@@ -667,73 +666,63 @@ void iniciar_jogo(){
                 if(tiro_anterior == 1){
                     k = rand()%4;
                     do{
-                        if(k == 0){
-                            linha = linha_tiro_anterior + 1;
-                            coluna = coluna_tiro_anterior;
-                            k++;
-                            verificou++;
-                            horizontal = 0;
- 
-                        }else if(k == 1){
-                            linha = linha_tiro_anterior - 1;
-                            coluna = coluna_tiro_anterior;
-                            k++;
-                            verificou++;
-                            horizontal = 0;
-
-                        }else if(k == 2){
-                            linha = linha_tiro_anterior;
-                            coluna = coluna_tiro_anterior + 1;
-                            k++;
-                            verificou++;
-                            horizontal = 1;
- 
-                        }else if(k==3){
-                            linha = linha_tiro_anterior;
-                            coluna = coluna_tiro_anterior - 1;
-                            k=0;
-                            verificou++;
-                            horizontal = 1;
+                        verificou++;
+                        switch (k){                        
+                            case 0:
+                                linha = linha_tiro_anterior + 1;
+                                coluna = coluna_tiro_anterior;
+                                k++;                            
+                                horizontal = 0;
+                                break;
+                            case 1:
+                                linha = linha_tiro_anterior - 1;
+                                coluna = coluna_tiro_anterior;
+                                k++;
+                                horizontal = 0;
+                                break;
+                            case 2: 
+                                linha = linha_tiro_anterior;
+                                coluna = coluna_tiro_anterior + 1;
+                                k++;
+                                horizontal = 1;
+                                break;
+                            default:
+                                linha = linha_tiro_anterior;
+                                coluna = coluna_tiro_anterior - 1;
+                                k = 0;
+                                horizontal = 1;
+                                break;
                         }
                     
-                    resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
+                        resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
                     }while((resp_verificacao != 2) && (verificou < 4));
 
                     if((resp_verificacao != 2) && (verificou == 4)){
                         tiro_anterior = 0;
-                    }else{
+                    }else
                         printf("\n\n\t\t\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
-                    }
                 }else{
                     if(horizontal == 0){
                         norte_sul = rand()%2;
                         do{
+                            coluna = coluna_tiro_anterior;
+                            verificou++;
+                            horizontal = 0;
                             if(norte_sul == 1){
                                 linha = linha_tiro_anterior + 1;
-                                coluna = coluna_tiro_anterior;
-                                verificou++;
-                                norte_sul = 0;
-                                horizontal = 0;
-    
+                                norte_sul = 0;    
                             }else if(norte_sul == 0){
-                                linha = linha_tiro_anterior - 1;
-                                coluna = coluna_tiro_anterior;
-                                verificou++;
-                                norte_sul = 1;
-                                horizontal = 0;
+                                linha = linha_tiro_anterior - 1;                                
+                                norte_sul = 1;                                
                             }                        
                             resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
                         }while((resp_verificacao != 2) && (verificou < 2));
 
                         if((resp_verificacao != 2) && (verificou == 2)){
-                            if( (linha_tiro_anterior - primeira_linha) > 0) {
-                                norte_sul = -1; 
-                            }else{
-                                norte_sul = 1;
-                            }  
+                            norte_sul = (linha_tiro_anterior - primeira_linha > 0)? -1 : 1;
                             
                             resp_verificacao = verifica_tiro( (primeira_linha + norte_sul), coluna, jogador.tabuleiro);
-                            if(resp_verificacao!=2)
+                            if(resp_verificacao != 2)
                                 tiro_anterior = 0;
                             else{
                                 linha = primeira_linha + norte_sul;
@@ -745,33 +734,27 @@ void iniciar_jogo(){
                     }else{
                         leste_oeste = rand()%2;
                         do{
+                            linha = linha_tiro_anterior;
+                            verificou++;
+                            horizontal = 1;                            
                             if((leste_oeste == 1)){
-                                linha = linha_tiro_anterior;
-                                coluna = coluna_tiro_anterior + 1;
-                                verificou++;
-                                leste_oeste = 0;
-                                horizontal = 1;    
+                                coluna = coluna_tiro_anterior + 1;                                
+                                leste_oeste = 0;                                    
                             }else if( (leste_oeste == 0) ){
-                                linha = linha_tiro_anterior;
+                                
                                 coluna = coluna_tiro_anterior - 1;
-                                verificou++;
                                 leste_oeste = 1;
-                                horizontal = 1;
                             }
                             resp_verificacao = verifica_tiro(linha, coluna, jogador.tabuleiro);
                         }while((resp_verificacao != 2) && (verificou < 2));
 
                         if((resp_verificacao != 2) && (verificou == 2)){
-                            if((coluna_tiro_anterior - primeira_coluna) > 0) {
-                                leste_oeste = -1; 
-                            }else{
-                                leste_oeste = 1;
-                            }  
+                            leste_oeste = (coluna_tiro_anterior - primeira_coluna > 0)? -1 : 1;
                             
                             resp_verificacao = verifica_tiro( linha, (primeira_coluna + leste_oeste), jogador.tabuleiro);
-                            if(resp_verificacao != 2){
+                            if(resp_verificacao != 2)
                                 tiro_anterior = 0;
-                            }else{
+                            else{
                                 linha = primeira_linha;
                                 coluna = primeira_coluna + leste_oeste;
                             }
