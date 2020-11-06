@@ -25,7 +25,8 @@ int tela_inicial(){
     do{
         printf("\n\n\t\t\t\t\t\t\t     > DIGITE O NÚMERO DA OPÇÃO: ");    
         limpa_buffer();
-        scanf("%d", &opcao);        
+        if(!scanf("%d", &opcao))
+            opcao = 4;
         if(!(0 <= opcao && opcao <= 2)){
             limpa_tela();
             titulo();
@@ -37,7 +38,8 @@ int tela_inicial(){
     limpa_tela();
     titulo();
     menu_inicial();
-    
+    limpa_buffer();
+
     return opcao;
 }
 
@@ -594,8 +596,8 @@ void iniciar_jogo(){
 	char c, feedback[60]; 
     int fim = 0;
 
-    jogador.qtd_barcos = cpu.qtd_barcos = 20;
-    jogador.qtd_bombas = cpu.qtd_bombas = 3;
+    jogador.qtd_barcos = cpu.qtd_barcos = QTD_BARCOS;
+    jogador.qtd_bombas = cpu.qtd_bombas = QTD_BOMBA;
     
     limpa_tela();
     imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
@@ -819,6 +821,7 @@ void iniciar_jogo(){
 
     printf("\n\n\t\t> DIGITE QUALQUER COISA PARA VOLTAR AO MENU INICIAL: ");    
     scanf("%c", &c);
+    limpa_buffer();
 }
 
 int verifica_tiro(int linha, int coluna, char tab_atacado[MAX][MAX]){
@@ -895,8 +898,8 @@ void mensagem_fim_jogo(int venceu){
         if(venceu == 3)
             printf("\n\n\n\t\t\tO OPONENTE ATINGIU TODAS AS EMBARCAÇÕES. ");
         else
-            printf("\t\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO OPONENTE. ");
-        printf("\t\t\t\tPUTS(\"VOCÊ PERDEU, %s!\");\n\n", jogador.nome);
+            printf("\n\n\n\t\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO OPONENTE. ");
+        printf("PUTS(\"VOCÊ PERDEU, %s!\");\n\n", jogador.nome);
         printf("\t\t\t\t╔╗  ╔╗╔═══╗╔═══╗╔═══╗   ╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔╗ ╔╗ ╔╗   ╔═══╗╔══╗╔═╗╔═╗   ╔═══╗╔═══╗     ╔╗╔═══╗╔═══╗╔═══╗  \n");
         printf("\t\t\t\t║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝   ║╔═╗║║╔══╝║╔═╗║╚╗╔╗║║╔══╝║║ ║║ ║║   ║╔══╝╚╣─╝║║╚╝║║   ╚╗╔╗║║╔══╝     ║║║╔═╗║║╔═╗║║╔═╗║  \n");
         printf("\t\t\t\t╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗   ║╚═╝║║╚══╗║╚═╝║ ║║║║║╚══╗║║ ║║ ║║   ║╚══╗ ║║ ║╔╗╔╗║    ║║║║║╚══╗     ║║║║ ║║║║ ╚╝║║ ║║  \n");

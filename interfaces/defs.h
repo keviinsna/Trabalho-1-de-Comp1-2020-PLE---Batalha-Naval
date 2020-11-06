@@ -18,6 +18,7 @@
 #define QTD_CONTRATORPEDO 3
 #define QTD_SUBMARINO 4
 #define QTD_BOMBA 3
+#define QTD_BARCOS 20
 
 /*Cores*/
 #define COLOR_RED      "\x1b[31m"
