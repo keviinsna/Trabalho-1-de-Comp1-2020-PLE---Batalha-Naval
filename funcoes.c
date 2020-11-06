@@ -316,18 +316,18 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
                     break;
                 case 4:
                     printf(COLOR_YELLOW"@"COLOR_RESET" - BOMBAS");
-                    printf("\t\t\t   2 CRUZADOS (3 CASAS, CADA): 1");
+                    printf("\t\t\t   2 CRUZADOS (3 CASAS CADA): 1");
                     break;
                 case 6:
                     printf(COLOR_BLUE"."COLOR_RESET" - ÁGUA");
-                    printf("\t\t\t   3 CONTRATORPEDOS (2 CASAS, CADA): 1");
+                    printf("\t\t\t   3 CONTRATORPEDOS (2 CASAS CADA): 1");
                     break;
                 case 8:
                     printf("* - POSIÇÃO INVÁLIDA");
-                    printf("\t\t   4 SUBMARINOS (1 CASA, CADA): 1");
+                    printf("\t\t   4 SUBMARINOS (1 CASA CADA): 1");
                     break;
                 case 10: 
-                    printf("\t\t\t\t   3 BOMBAS (1 CASA, CADA): @");
+                    printf("\t\t\t\t   3 BOMBAS (1 CASA CADA): @");
                     break;
                 default:
                     break;
@@ -952,21 +952,27 @@ int fim_jogo(){
     int resp = 0;
     /*
         0 = jogo não terminou
-        1 = jogador venceu
-        2 = jogador perdeu
+        1 = jogador venceu destruindo os barcos do oponente
+        2 = jogador venceu tendo as bombas destruídas
+        3 = jogador perdeu tendo os barcos destruídos
+        4 = jogador perdeu destruindo as bombas do oponente
     */
 
     if(jogador.qtd_barcos == 0 || cpu.qtd_bombas == 0)
-       resp = 2;
+       resp = (jogador.qtd_barcos == 0)? 3 : 4;
     else if(cpu.qtd_barcos == 0 || jogador.qtd_bombas == 0)
-       resp = 1;
+       resp = (cpu.qtd_barcos == 0)? 1 : 2;
 
     return resp;
 }
 
 void mensagem_fim_jogo(int venceu){
-    if(venceu == 1){
-        printf("\n\n\n\t\t\t\tPARABÉNS! VOCÊ VENCEU, %s.\n\n", jogador.nome);
+    if(venceu == 1 || venceu == 2){
+        if(venceu == 1)
+            printf("\n\n\n\t\t\tVOCÊ ATINGIU TODAS AS EMBARCAÇÕES DO OPONENTE. ");
+        else
+            printf("\n\n\n\t\t\tO OPONENTE ATINGIU TODAS AS SUAS BOMBAS. ");
+        printf("PARABÉNS! VOCÊ VENCEU, %s.\n\n", jogador.nome);
         printf("\t\t\t\t╔═══╗╔═══╗╔═══╗╔═══╗╔══╗ ╔═══╗╔═╗ ╔╗╔═══╗   ╔╗  ╔╗╔═══╗╔═══╗╔═══╗   ╔╗  ╔╗╔═══╗╔═╗ ╔╗╔═══╗╔═══╗╔╗ ╔╗ ╔╗\n");
         printf("\t\t\t\t║╔═╗║║╔═╗║║╔═╗║║╔═╗║║╔╗║ ║╔══╝║║╚╗║║║╔═╗║   ║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝   ║╚╗╔╝║║╔══╝║║╚╗║║║╔═╗║║╔══╝║║ ║║ ║║\n");
         printf("\t\t\t\t║╚═╝║║║ ║║║╚═╝║║║ ║║║╚╝╚╗║╚══╗║╔╗╚╝║║╚══╗   ╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗   ╚╗║║╔╝║╚══╗║╔╗╚╝║║║ ╚╝║╚══╗║║ ║║ ║║\n");
@@ -974,7 +980,11 @@ void mensagem_fim_jogo(int venceu){
         printf("\t\t\t\t║║   ║╔═╗║║║║╚╗║╔═╗║║╚═╝║║╚══╗║║ ║║║║╚═╝║╔╗  ╚╗╔╝ ║╚═╝║║╚═╝║║╚══╗    ╚╗╔╝ ║╚══╗║║ ║║║║╚═╝║║╚══╗║╚═╝║ ╔╗\n");
         printf("\t\t\t\t╚╝   ╚╝ ╚╝╚╝╚═╝╚╝ ╚╝╚═══╝╚═══╝╚╝ ╚═╝╚═══╝╚╝   ╚╝  ╚═══╝╚═══╝╚═══╝     ╚╝  ╚═══╝╚╝ ╚═╝╚═══╝╚═══╝╚═══╝ ╚╝\n");
     }else{
-        printf("\n\n\n\t\t\t\tPUTS(\"VOCÊ PERDEU, %s!\")\n\n", jogador.nome);
+        if(venceu == 3)
+            printf("\n\n\n\t\t\tO OPONENTE ATINGIU TODAS AS EMBARCAÇÕES. ");
+        else
+            printf("\t\t\tVOCÊ ATINGIU TODAS AS BOMBAS DO OPONENTE. ");
+        printf("\t\t\t\tPUTS(\"VOCÊ PERDEU, %s!\");\n\n", jogador.nome);
         printf("\t\t\t\t╔╗  ╔╗╔═══╗╔═══╗╔═══╗   ╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔╗ ╔╗ ╔╗   ╔═══╗╔══╗╔═╗╔═╗   ╔═══╗╔═══╗     ╔╗╔═══╗╔═══╗╔═══╗  \n");
         printf("\t\t\t\t║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝   ║╔═╗║║╔══╝║╔═╗║╚╗╔╗║║╔══╝║║ ║║ ║║   ║╔══╝╚╣─╝║║╚╝║║   ╚╗╔╗║║╔══╝     ║║║╔═╗║║╔═╗║║╔═╗║  \n");
         printf("\t\t\t\t╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗   ║╚═╝║║╚══╗║╚═╝║ ║║║║║╚══╗║║ ║║ ║║   ║╚══╗ ║║ ║╔╗╔╗║    ║║║║║╚══╗     ║║║║ ║║║║ ╚╝║║ ║║  \n");
