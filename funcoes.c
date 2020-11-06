@@ -341,12 +341,12 @@ void imprime_tabuleiro(char tabuleiro[MAX][MAX]){
 
 void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX]){
     int i, j;
-    printf("\n\n\n\t\t  TABULEIRO DO OPONENTE\t\t\t\t\t TABULEIRO DE %s\n", jogador.nome);
-    printf("\t\t ------------------------------------------\t\t");
+    printf("\n\n\n\t\t\t\t  TABULEIRO DO OPONENTE\t\t\t\t\t\t  TABULEIRO DE %s\n", jogador.nome);
+    printf("\t\t\t ------------------------------------------\t\t\t");
     printf(" ------------------------------------------\n");
     
     for(i = 0; i < MAX; i++){
-        printf("\t\t");
+        printf("\t\t\t");
 
         /* Tabuleiro 1 */ 
         for(j = 0; j < MAX; j++){
@@ -370,7 +370,7 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
             }    
         }
         
-        printf("\t\t");
+        printf("\t\t\t");
 
         /* Tabuleiro 2 */
         for(j = 0; j < MAX; j++){
@@ -394,12 +394,12 @@ void imprime_ambos_tabuleiros(char tabuleiro[MAX][MAX], char tabuleiro2[MAX][MAX
             }
         }
         if(!i){
-            printf("\n\t\t ------------------------------------------\t\t");
+            printf("\n\t\t\t ------------------------------------------\t\t\t");
             printf(" ------------------------------------------");
         }            
         printf("\n");
     }
-    printf("\t\t ------------------------------------------\t\t");
+    printf("\t\t\t ------------------------------------------\t\t\t");
     printf(" ------------------------------------------\n");
 }
 
@@ -419,9 +419,7 @@ void insere_bomba(int linha, int coluna,char tabuleiro[MAX][MAX]){
 }
 
 int verifica_coordenadas(int linha, int coluna, int tam_barco, char tabuleiro[MAX][MAX], char orientacao){
-    int i;
-    int ori; /* Auxilar para orientação */
-    int resp = 1;
+    int i, ori, resp = 1;
 
     if(orientacao != 'h' && orientacao != 'v')
         resp = 0;
@@ -618,14 +616,14 @@ void iniciar_jogo(){
 	while(1){		
         
 		do{ /* Jogador */
-			printf("\n\n\t\t> SUA VEZ! \n\t\t> DIGITE AS COORDENADAS DA POSIÇÃO QUE DESEJA ATACAR: \n\n");
+			printf("\n\n\t\t\t> SUA VEZ! \n\t\t\t> DIGITE AS COORDENADAS DA POSIÇÃO QUE DESEJA ATACAR: \n\n");
 		    limpa_buffer();        
-		    printf("\t\t> LINHA: ");
+		    printf("\t\t\t> LINHA: ");
 		    if(!scanf("%d", &linha))
                 linha = 20;
 		    limpa_buffer();
 		    
-            printf("\t\t> COLUNA: ");
+            printf("\t\t\t> COLUNA: ");
 		    scanf("%c", &c);            
 		    coluna = toupper(c) - 64;
             limpa_buffer();
@@ -634,13 +632,13 @@ void iniciar_jogo(){
             if(resp_verificacao == 0){
                 limpa_tela();
                 imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
-                strcpy(feedback,"\t\tCOORDENADA INVÁLIDA. TENTE OUTRA.");
+                strcpy(feedback,"\t\t\tCOORDENADA INVÁLIDA. TENTE OUTRA.");
                 printf("%s", feedback);
                 continue;
             }else if(resp_verificacao == 1){
                 limpa_tela();
                 imprime_ambos_tabuleiros(cpu.tabuleiro, jogador.tabuleiro);
-                strcpy(feedback,"\t\tCOORDENADA JÁ ATINGIDA. TENTE OUTRA.");
+                strcpy(feedback,"\t\t\tCOORDENADA JÁ ATINGIDA. TENTE OUTRA.");
                 printf("%s", feedback);
                 continue;
             }else{
@@ -648,12 +646,12 @@ void iniciar_jogo(){
                 
                 if(resp_tiro == 0){
                     cpu.qtd_barcos--;
-                    strcpy(feedback, "\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO.");
+                    strcpy(feedback, "\t\t\tEMBARCAÇÃO ATINGIDA COM SUCESSO.");
                 }else if(resp_tiro == 1){
                     cpu.qtd_bombas--; 
-                    strcpy(feedback, "\t\t\t\tBOMBA ATINGIDA!");
+                    strcpy(feedback, "\t\t\t\t\tBOMBA ATINGIDA!");
                 }else
-                    strcpy(feedback, "\t\t\t\tÁGUA ATINGIDA!");
+                    strcpy(feedback, "\t\t\t\t\tÁGUA ATINGIDA!");
             }
 
             limpa_tela();
@@ -751,7 +749,7 @@ void iniciar_jogo(){
                     if((resp_verificacao != 2) && (verificou == 4)){
                         tiro_anterior = 0;
                     }else{
-                        printf("\n\n\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
+                        printf("\n\n\t\t\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
                     }
                 }else{
                     if(horizontal == 0){
@@ -790,7 +788,7 @@ void iniciar_jogo(){
                             }
                             
                         }else
-                            printf("\n\n\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
+                            printf("\n\n\t\t\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
                     }else{
                         leste_oeste = rand()%2;
                         do{
@@ -825,12 +823,12 @@ void iniciar_jogo(){
                                 coluna = primeira_coluna + leste_oeste;
                             }
                         }else
-                            printf("\n\n\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");                        
+                            printf("\n\n\t\t\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
                     }
                 }
             }
             if(tiro_anterior == 0){
-                printf("\n\n\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
+                printf("\n\n\t\t\t\t\t\t\t\t\t\t\t > VEZ DO OPONENTE!\n");
 
                 do{
                     linha = 1 + rand()%10;
@@ -848,7 +846,7 @@ void iniciar_jogo(){
                 
                 if(resp_tiro == 0){
                     jogador.qtd_barcos--;
-                    printf(COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" COLOR_RESET);
+                    printf(COLOR_GREEN "\t\t\t\t\t\t\t\t\t\t\t\tEMBARCAÇÃO ATINGIDA!" COLOR_RESET);
                     tiro_anterior++;
                     if(tiro_anterior == 1){
                         primeira_linha = linha;
@@ -886,12 +884,12 @@ void iniciar_jogo(){
                         break;
                 }else if(resp_tiro == 1){
                     jogador.qtd_bombas--;
-                    printf( "\t\t\t\t\t\t\t\t\t\t\tBOMBA ATINGIDA!");
+                    printf( "\t\t\t\t\t\t\t\t\t\t\t\tBOMBA ATINGIDA!");
                     if((verificou >= 4) || ((tiro_anterior > 1) && (verificou >= 2)))
                         tiro_anterior = 0;
                     break;
                 }else{
-                    printf("\t\t\t\t\t\t\t\t\t\t\tÁGUA ATINGIDA!");
+                    printf("\t\t\t\t\t\t\t\t\t\t\t\tÁGUA ATINGIDA!");
                     if(verificou >= 4)
                         tiro_anterior = 0;
                     break;
@@ -907,7 +905,7 @@ void iniciar_jogo(){
         }            
 	}
 
-    printf("\n\t\t> DIGITE QUALQUER COISA PARA VOLTAR AO MENU INICIAL: ");    
+    printf("\n\n\t\t> DIGITE QUALQUER COISA PARA VOLTAR AO MENU INICIAL: ");    
     scanf("%c", &c);
 }
 
@@ -969,20 +967,20 @@ int fim_jogo(){
 void mensagem_fim_jogo(int venceu){
     if(venceu == 1){
         printf("\n\n\n\t\t\t\tPARABÉNS! VOCÊ VENCEU, %s.\n\n", jogador.nome);
-        printf("\t\t\t\t╔═══╗╔═══╗╔═══╗╔═══╗╔══╗ ╔═══╗╔═╗ ╔╗╔═══╗  ╔╗  ╔╗╔═══╗╔═══╗╔═══╗     ╔╗  ╔╗╔═══╗╔═╗ ╔╗╔═══╗╔═══╗╔╗ ╔╗\n");
-        printf("\t\t\t\t║╔═╗║║╔═╗║║╔═╗║║╔═╗║║╔╗║ ║╔══╝║║╚╗║║║╔═╗║  ║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝     ║╚╗╔╝║║╔══╝║║╚╗║║║╔═╗║║╔══╝║║ ║║\n");
-        printf("\t\t\t\t║╚═╝║║║ ║║║╚═╝║║║ ║║║╚╝╚╗║╚══╗║╔╗╚╝║║╚══╗  ╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗     ╚╗║║╔╝║╚══╗║╔╗╚╝║║║ ╚╝║╚══╗║║ ║║\n");
-        printf("\t\t\t\t║╔══╝║╚═╝║║╔╗╔╝║╚═╝║║╔═╗║║╔══╝║║╚╗║║╚══╗║   ║╚╝║ ║║ ║║║║ ╔╗║╔══╝      ║╚╝║ ║╔══╝║║╚╗║║║║ ╔╗║╔══╝║║ ║║\n");
-        printf("\t\t\t\t║║   ║╔═╗║║║║╚╗║╔═╗║║╚═╝║║╚══╗║║ ║║║║╚═╝║   ╚╗╔╝ ║╚═╝║║╚═╝║║╚══╗      ╚╗╔╝ ║╚══╗║║ ║║║║╚═╝║║╚══╗║╚═╝║\n");
-        printf("\t\t\t\t╚╝   ╚╝ ╚╝╚╝╚═╝╚╝ ╚╝╚═══╝╚═══╝╚╝ ╚═╝╚═══╝    ╚╝  ╚═══╝╚═══╝╚═══╝       ╚╝  ╚═══╝╚╝ ╚═╝╚═══╝╚═══╝╚═══╝\n");
+        printf("\t\t\t\t╔═══╗╔═══╗╔═══╗╔═══╗╔══╗ ╔═══╗╔═╗ ╔╗╔═══╗   ╔╗  ╔╗╔═══╗╔═══╗╔═══╗   ╔╗  ╔╗╔═══╗╔═╗ ╔╗╔═══╗╔═══╗╔╗ ╔╗ ╔╗\n");
+        printf("\t\t\t\t║╔═╗║║╔═╗║║╔═╗║║╔═╗║║╔╗║ ║╔══╝║║╚╗║║║╔═╗║   ║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝   ║╚╗╔╝║║╔══╝║║╚╗║║║╔═╗║║╔══╝║║ ║║ ║║\n");
+        printf("\t\t\t\t║╚═╝║║║ ║║║╚═╝║║║ ║║║╚╝╚╗║╚══╗║╔╗╚╝║║╚══╗   ╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗   ╚╗║║╔╝║╚══╗║╔╗╚╝║║║ ╚╝║╚══╗║║ ║║ ║║\n");
+        printf("\t\t\t\t║╔══╝║╚═╝║║╔╗╔╝║╚═╝║║╔═╗║║╔══╝║║╚╗║║╚══╗║    ║╚╝║ ║║ ║║║║ ╔╗║╔══╝    ║╚╝║ ║╔══╝║║╚╗║║║║ ╔╗║╔══╝║║ ║║ ╚╝\n");
+        printf("\t\t\t\t║║   ║╔═╗║║║║╚╗║╔═╗║║╚═╝║║╚══╗║║ ║║║║╚═╝║╔╗  ╚╗╔╝ ║╚═╝║║╚═╝║║╚══╗    ╚╗╔╝ ║╚══╗║║ ║║║║╚═╝║║╚══╗║╚═╝║ ╔╗\n");
+        printf("\t\t\t\t╚╝   ╚╝ ╚╝╚╝╚═╝╚╝ ╚╝╚═══╝╚═══╝╚╝ ╚═╝╚═══╝╚╝   ╚╝  ╚═══╝╚═══╝╚═══╝     ╚╝  ╚═══╝╚╝ ╚═╝╚═══╝╚═══╝╚═══╝ ╚╝\n");
     }else{
-        printf("\n\n\n\t\t\t\tVOCÊ PERDEU, %s!\n\n", jogador.nome);
-        printf("\t\t\t\t╔╗  ╔╗╔═══╗╔═══╗╔═══╗     ╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔╗ ╔╗  ╔═══╗╔══╗╔═╗╔═╗     ╔═══╗╔═══╗       ╔╗╔═══╗╔═══╗╔═══╗\n");
-        printf("\t\t\t\t║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝     ║╔═╗║║╔══╝║╔═╗║╚╗╔╗║║╔══╝║║ ║║  ║╔══╝╚╣─╝║║╚╝║║     ╚╗╔╗║║╔══╝       ║║║╔═╗║║╔═╗║║╔═╗║\n");
-        printf("\t\t\t\t╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗     ║╚═╝║║╚══╗║╚═╝║ ║║║║║╚══╗║║ ║║  ║╚══╗ ║║ ║╔╗╔╗║      ║║║║║╚══╗       ║║║║ ║║║║ ╚╝║║ ║║\n");
-        printf("\t\t\t\t ║╚╝║ ║║ ║║║║ ╔╗║╔══╝     ║╔══╝║╔══╝║╔╗╔╝ ║║║║║╔══╝║║ ║║  ║╔══╝ ║║ ║║║║║║      ║║║║║╔══╝     ╔╗║║║║ ║║║║╔═╗║║ ║║\n");
-        printf("\t\t\t\t ╚╗╔╝ ║╚═╝║║╚═╝║║╚══╗     ║║   ║╚══╗║║║╚╗╔╝╚╝║║╚══╗║╚═╝║  ║║   ╔╣─╗║║║║║║     ╔╝╚╝║║╚══╗     ║╚╝║║╚═╝║║╚╩═║║╚═╝║\n");
-        printf("\t\t\t\t  ╚╝  ╚═══╝╚═══╝╚═══╝     ╚╝   ╚═══╝╚╝╚═╝╚═══╝╚═══╝╚═══╝  ╚╝   ╚══╝╚╝╚╝╚╝     ╚═══╝╚═══╝     ╚══╝╚═══╝╚═══╝╚═══╝\n");
+        printf("\n\n\n\t\t\t\tPUTS(\"VOCÊ PERDEU, %s!\")\n\n", jogador.nome);
+        printf("\t\t\t\t╔╗  ╔╗╔═══╗╔═══╗╔═══╗   ╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔╗ ╔╗ ╔╗   ╔═══╗╔══╗╔═╗╔═╗   ╔═══╗╔═══╗     ╔╗╔═══╗╔═══╗╔═══╗  \n");
+        printf("\t\t\t\t║╚╗╔╝║║╔═╗║║╔═╗║║╔══╝   ║╔═╗║║╔══╝║╔═╗║╚╗╔╗║║╔══╝║║ ║║ ║║   ║╔══╝╚╣─╝║║╚╝║║   ╚╗╔╗║║╔══╝     ║║║╔═╗║║╔═╗║║╔═╗║  \n");
+        printf("\t\t\t\t╚╗║║╔╝║║ ║║║║ ╚╝║╚══╗   ║╚═╝║║╚══╗║╚═╝║ ║║║║║╚══╗║║ ║║ ║║   ║╚══╗ ║║ ║╔╗╔╗║    ║║║║║╚══╗     ║║║║ ║║║║ ╚╝║║ ║║  \n");
+        printf("\t\t\t\t ║╚╝║ ║║ ║║║║ ╔╗║╔══╝   ║╔══╝║╔══╝║╔╗╔╝ ║║║║║╔══╝║║ ║║ ╚╝   ║╔══╝ ║║ ║║║║║║    ║║║║║╔══╝   ╔╗║║║║ ║║║║╔═╗║║ ║║  \n");
+        printf("\t\t\t\t ╚╗╔╝ ║╚═╝║║╚═╝║║╚══╗   ║║   ║╚══╗║║║╚╗╔╝╚╝║║╚══╗║╚═╝║ ╔╗   ║║   ╔╣─╗║║║║║║   ╔╝╚╝║║╚══╗   ║╚╝║║╚═╝║║╚╩═║║╚═╝║╔╗\n");
+        printf("\t\t\t\t  ╚╝  ╚═══╝╚═══╝╚═══╝   ╚╝   ╚═══╝╚╝╚═╝╚═══╝╚═══╝╚═══╝ ╚╝   ╚╝   ╚══╝╚╝╚╝╚╝   ╚═══╝╚═══╝   ╚══╝╚═══╝╚═══╝╚═══╝╚╝\n");
     }
 }
 
