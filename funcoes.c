@@ -160,31 +160,31 @@ void preenche_tabuleiro(){
     for(i = 1; i <= 5; i++){
         switch (i){
             case 1:
-                qtd_barco = 1;
+                qtd_barco = QTD_PORTA_AVIAO;
                 strcpy(barco, "PORTA-AVIÃO");
                 tamanho = TAM_PORTA_AVIAO;
                 break; 
             
             case 2:
-                qtd_barco = 2;
+                qtd_barco = QTD_CRUZADO;
                 strcpy(barco,"CRUZADO");
                 tamanho = TAM_CRUZADO;
                 break;
             
             case 3:
-                qtd_barco = 3;
+                qtd_barco = QTD_CONTRATORPEDO;
                 strcpy(barco,"CONTRATORPEDO");
                 tamanho = TAM_CONTRATORPEDO;
                 break;
             
             case 4:
-                qtd_barco = 4;
+                qtd_barco = QTD_SUBMARINO;
                 strcpy(barco,"SUBMARINO");
                 tamanho = TAM_SUBMARINO;
                 break;
             
             case 5:
-                qtd_barco = 3;
+                qtd_barco = QTD_BOMBA;
                 strcpy(barco,"BOMBA");
                 tamanho = TAM_BOMBA;
                 break;            
