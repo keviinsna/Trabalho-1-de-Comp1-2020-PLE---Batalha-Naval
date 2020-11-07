@@ -28,7 +28,6 @@
     void iniciar_jogo();    
     int  atira(int linha, int coluna, char tab_atacado[MAX][MAX]);
     int  verifica_tiro(int linha, int coluna, char tab_atacado[MAX][MAX]);
-    int  inteligencia_CPU(int tiro_anterior, int linha_tiro_anterior, int coluna_tiro_anterior, int *linha, int *coluna, int *verificou);
 
     int  fim_jogo();
     void mensagem_fim_jogo(int venceu);
